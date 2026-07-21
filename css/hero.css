@@ -1,0 +1,399 @@
+/*==========================================================
+                        HERO SECTION
+==========================================================*/
+
+.hero{
+
+    min-height:100vh;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    align-items:center;
+
+    gap:60px;
+
+    padding-top:140px;
+
+    padding-bottom:80px;
+
+    background:
+    linear-gradient(
+    135deg,
+    #0B5D1E 0%,
+    #2E8B57 35%,
+    #0F3D57 75%,
+    #00B7FF 100%);
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+/*==========================================================
+                HERO BACKGROUND GLOW
+==========================================================*/
+
+.hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:650px;
+
+    height:650px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:50%;
+
+    top:-220px;
+
+    right:-180px;
+
+    filter:blur(40px);
+
+}
+
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+
+    height:450px;
+
+    background:rgba(255,255,255,.05);
+
+    border-radius:50%;
+
+    left:-100px;
+
+    bottom:-180px;
+
+    filter:blur(20px);
+
+}
+
+
+/*==========================================================
+                    HERO LEFT
+==========================================================*/
+
+.hero-left{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.welcome{
+
+    color:#A5F3B5;
+
+    letter-spacing:3px;
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+}
+
+.hero-left h1{
+
+    color:white;
+
+    font-size:4rem;
+
+    line-height:1.2;
+
+    margin-bottom:25px;
+
+}
+
+.hero-text{
+
+    color:rgba(255,255,255,.88);
+
+    font-size:1.15rem;
+
+    max-width:620px;
+
+    margin-bottom:45px;
+
+}
+
+
+/*==========================================================
+                HERO BUTTONS
+==========================================================*/
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+.hero-buttons .primary-btn{
+
+    background:white;
+
+    color:var(--dark-green);
+
+}
+
+.hero-buttons .primary-btn:hover{
+
+    color:white;
+
+    background:var(--blue-gradient);
+
+}
+
+.hero-buttons .secondary-btn{
+
+    color:white;
+
+    border:2px solid white;
+
+}
+
+.hero-buttons .secondary-btn:hover{
+
+    background:white;
+
+    color:var(--dark-green);
+
+}
+
+
+/*==========================================================
+                HERO RIGHT
+==========================================================*/
+
+.hero-right{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+/*==========================================================
+                HERO IMAGE
+==========================================================*/
+
+.hero-image{
+
+    width:100%;
+
+    max-width:580px;
+
+    animation:floatImage 6s ease-in-out infinite;
+
+}
+
+.hero-image img{
+
+    width:100%;
+
+}
+
+
+/*==========================================================
+                FLOATING ANIMATION
+==========================================================*/
+
+@keyframes floatImage{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-18px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/*==========================================================
+            FLOATING INFORMATION CARDS
+==========================================================*/
+
+.hero-right::before{
+
+    content:"🌦 Live Weather";
+
+    position:absolute;
+
+    top:50px;
+
+    left:-30px;
+
+    background:white;
+
+    padding:16px 22px;
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow-medium);
+
+    font-weight:600;
+
+    animation:floatCard1 5s ease-in-out infinite;
+
+}
+
+.hero-right::after{
+
+    content:"📈 Market Prices";
+
+    position:absolute;
+
+    bottom:70px;
+
+    right:-20px;
+
+    background:white;
+
+    padding:16px 22px;
+
+    border-radius:18px;
+
+    box-shadow:var(--shadow-medium);
+
+    font-weight:600;
+
+    animation:floatCard2 6s ease-in-out infinite;
+
+}
+
+@keyframes floatCard1{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-12px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes floatCard2{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(10px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/*==========================================================
+                HERO ENTRANCE ANIMATION
+==========================================================*/
+
+.hero-left{
+
+    animation:slideLeft 1.2s ease;
+
+}
+
+.hero-right{
+
+    animation:slideRight 1.2s ease;
+
+}
+
+@keyframes slideLeft{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(-80px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+@keyframes slideRight{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(80px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}

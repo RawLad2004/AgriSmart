@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | AgriSmart</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+<body>
+
+<div class="auth-wrapper">
+
+    <div class="auth-card">
+
+        <div class="logo">
+            <div class="as-logo">
+                <span class="letter-a">A</span>
+                <span class="letter-s">S</span>
+            </div>
+        </div>
+
+        <h1>Create your account</h1>
+        <p class="auth-subtitle">Join AgriSmart and manage your farm smarter</p>
+
+        <form id="signup-form">
+
+            <div class="form-group">
+                <label for="full_name">Full name</label>
+                <input type="text" id="full_name" required placeholder="Jane Wanjiru">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required placeholder="you@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="county">County</label>
+                <input type="text" id="county" required placeholder="Nakuru">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required minlength="6" placeholder="At least 6 characters">
+            </div>
+
+            <div id="auth-error" class="form-error"></div>
+
+            <button type="submit" class="primary-btn">Sign Up</button>
+
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/auth.js"></script>
+
+</body>
+</html>

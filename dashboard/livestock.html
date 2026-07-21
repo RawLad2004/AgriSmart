@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livestock | AgriSmart</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+<body>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="as-logo">
+                <span class="letter-a">A</span>
+                <span class="letter-s">S</span>
+            </div>
+            <h2>AgriSmart</h2>
+        </div>
+
+        <a href="dashboard.html" class="sidebar-link">
+            <i class="fa-solid fa-house"></i> Overview
+        </a>
+        <a href="farms.html" class="sidebar-link">
+            <i class="fa-solid fa-tractor"></i> My Farms
+        </a>
+        <a href="crops.html" class="sidebar-link">
+            <i class="fa-solid fa-wheat-awn"></i> Crops
+        </a>
+        <a href="livestock.html" class="sidebar-link active">
+            <i class="fa-solid fa-cow"></i> Livestock
+        </a>
+        <a href="weather.html" class="sidebar-link">
+            <i class="fa-solid fa-cloud-sun-rain"></i> Weather
+        </a>
+        <a href="#" class="sidebar-link">
+            <i class="fa-solid fa-chart-line"></i> Market
+        </a>
+        <a href="#" class="sidebar-link">
+            <i class="fa-solid fa-wallet"></i> Finances
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="#" id="logout-btn" class="sidebar-link">
+                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+            </a>
+        </div>
+
+    </aside>
+
+    <div class="main-area">
+
+        <div class="topbar">
+            <h1>Livestock</h1>
+            <div class="topbar-user">
+                <span id="user-name">Loading…</span>
+                <div class="avatar" id="user-avatar">?</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Livestock Enterprises</h2>
+                    <button class="primary-btn" id="open-add-enterprise" style="padding:12px 26px;">
+                        <i class="fa-solid fa-plus"></i> Add Livestock Enterprise
+                    </button>
+                </div>
+                <div id="enterprises-list">
+                    <p style="color:var(--dark-grey);">Loading…</p>
+                </div>
+            </div>
+
+            <div class="panel" id="animals-panel" style="display:none;">
+                <div class="panel-header">
+                    <h2 id="animals-panel-title">Animals</h2>
+                    <button class="primary-btn" id="open-add-animal" style="padding:12px 26px;">
+                        <i class="fa-solid fa-plus"></i> Add Animal
+                    </button>
+                </div>
+                <div id="animals-list"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--=====================================
+    ADD LIVESTOCK ENTERPRISE MODAL
+======================================-->
+<div class="modal-overlay" id="add-enterprise-modal">
+    <div class="modal-box">
+        <h3>Add a Livestock Enterprise</h3>
+        <form id="add-enterprise-form">
+
+            <div class="form-group">
+                <label for="ent_farm">Farm</label>
+                <select id="ent_farm" required>
+                    <option value="">Select a farm…</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="ent_name">Enterprise name</label>
+                <input type="text" id="ent_name" required placeholder="e.g. Dairy Herd">
+            </div>
+
+            <div class="form-group">
+                <label for="ent_type">Enterprise type</label>
+                <select id="ent_type">
+                    <option value="livestock">Livestock (general)</option>
+                    <option value="dairy">Dairy</option>
+                    <option value="poultry">Poultry</option>
+                    <option value="aquaculture">Aquaculture</option>
+                    <option value="apiary">Apiary</option>
+                </select>
+            </div>
+
+            <div id="enterprise-form-error" class="form-error"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" id="cancel-add-enterprise" style="padding:12px 26px;">Cancel</button>
+                <button type="submit" class="primary-btn" style="padding:12px 26px;">Save</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!--=====================================
+            ADD ANIMAL MODAL
+======================================-->
+<div class="modal-overlay" id="add-animal-modal">
+    <div class="modal-box">
+        <h3>Add an Animal</h3>
+        <form id="add-animal-form">
+
+            <div class="form-group">
+                <label for="animal_species">Species</label>
+                <input type="text" id="animal_species" required placeholder="e.g. Dairy Cow, Broiler Chicken">
+            </div>
+
+            <div class="form-group">
+                <label for="animal_breed">Breed</label>
+                <input type="text" id="animal_breed" placeholder="e.g. Friesian">
+            </div>
+
+            <div class="form-group">
+                <label for="animal_tag">Tag ID</label>
+                <input type="text" id="animal_tag" placeholder="e.g. COW-014">
+            </div>
+
+            <div class="form-group">
+                <label for="animal_dob">Date of birth</label>
+                <input type="date" id="animal_dob">
+            </div>
+
+            <div class="form-group">
+                <label for="animal_status">Status</label>
+                <select id="animal_status">
+                    <option value="active">Active</option>
+                    <option value="sold">Sold</option>
+                    <option value="deceased">Deceased</option>
+                </select>
+            </div>
+
+            <div id="animal-form-error" class="form-error"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" id="cancel-add-animal" style="padding:12px 26px;">Cancel</button>
+                <button type="submit" class="primary-btn" style="padding:12px 26px;">Save</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/livestock.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Farms | AgriSmart</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+<body>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="as-logo">
+                <span class="letter-a">A</span>
+                <span class="letter-s">S</span>
+            </div>
+            <h2>AgriSmart</h2>
+        </div>
+
+        <a href="dashboard.html" class="sidebar-link">
+            <i class="fa-solid fa-house"></i> Overview
+        </a>
+        <a href="farms.html" class="sidebar-link active">
+            <i class="fa-solid fa-tractor"></i> My Farms
+        </a>
+        <a href="crops.html" class="sidebar-link">
+            <i class="fa-solid fa-wheat-awn"></i> Crops
+        </a>
+        <a href="livestock.html" class="sidebar-link">
+            <i class="fa-solid fa-cow"></i> Livestock
+        </a>
+        <a href="weather.html" class="sidebar-link">
+            <i class="fa-solid fa-cloud-sun-rain"></i> Weather
+        </a>
+        <a href="#" class="sidebar-link">
+            <i class="fa-solid fa-chart-line"></i> Market
+        </a>
+        <a href="#" class="sidebar-link">
+            <i class="fa-solid fa-wallet"></i> Finances
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="#" id="logout-btn" class="sidebar-link">
+                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+            </a>
+        </div>
+
+    </aside>
+
+    <div class="main-area">
+
+        <div class="topbar">
+            <h1>My Farms</h1>
+            <div class="topbar-user">
+                <span id="user-name">Loading…</span>
+                <div class="avatar" id="user-avatar">?</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>All Farms</h2>
+                    <button class="primary-btn" id="open-add-farm" style="padding:12px 26px;">
+                        <i class="fa-solid fa-plus"></i> Add Farm
+                    </button>
+                </div>
+                <div id="farms-list">
+                    <p style="color:var(--dark-grey);">Loading your farms…</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--=====================================
+            ADD FARM MODAL
+======================================-->
+<div class="modal-overlay" id="add-farm-modal">
+
+    <div class="modal-box">
+
+        <h3>Add a New Farm</h3>
+
+        <form id="add-farm-form">
+
+            <div class="form-group">
+                <label for="farm_name">Farm name</label>
+                <input type="text" id="farm_name" required placeholder="e.g. Green Valley Farm">
+            </div>
+
+            <div class="form-group">
+                <label for="farm_county">County</label>
+                <input type="text" id="farm_county" required placeholder="e.g. Nakuru">
+            </div>
+
+            <div class="form-group">
+                <label for="farm_size">Size (acres)</label>
+                <input type="number" id="farm_size" step="0.1" placeholder="e.g. 5">
+            </div>
+
+            <div class="form-group">
+                <label for="farm_soil">Soil type</label>
+                <select id="farm_soil">
+                    <option value="">Not sure / not specified</option>
+                    <option value="loam">Loam</option>
+                    <option value="clay">Clay</option>
+                    <option value="sandy">Sandy</option>
+                    <option value="silt">Silt</option>
+                    <option value="volcanic">Volcanic</option>
+                </select>
+            </div>
+
+            <div id="farm-form-error" class="form-error"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" id="cancel-add-farm" style="padding:12px 26px;">Cancel</button>
+                <button type="submit" class="primary-btn" style="padding:12px 26px;">Save Farm</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/farms.js"></script>
+
+</body>
+</html>

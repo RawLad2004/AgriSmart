@@ -1,0 +1,197 @@
+/*==========================================================
+                        FOOTER
+==========================================================*/
+
+footer{
+
+    background:linear-gradient(
+        135deg,
+        #072E12,
+        #0B5D1E,
+        #0F3D57);
+
+    color:white;
+
+    padding-top:90px;
+
+    margin-top:80px;
+
+}
+
+/*==========================================================
+                    FOOTER CONTAINER
+==========================================================*/
+
+.footer-container{
+
+    width:90%;
+
+    max-width:1400px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr 1fr 1.4fr;
+
+    gap:60px;
+
+}
+
+/*==========================================================
+                        LOGO
+==========================================================*/
+
+.footer-logo p{
+
+    margin-top:25px;
+
+    color:rgba(255,255,255,.8);
+
+    line-height:1.9;
+
+}
+
+.footer-logo .logo h2{
+
+    color:white;
+
+}
+
+/*==========================================================
+                    FOOTER HEADINGS
+==========================================================*/
+
+.footer-links h3,
+
+.footer-contact h3{
+
+    margin-bottom:25px;
+
+    color:white;
+
+}
+
+/*==========================================================
+                    LINKS
+==========================================================*/
+
+.footer-links{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.footer-links a{
+
+    margin-bottom:15px;
+
+    color:rgba(255,255,255,.75);
+
+    transition:.3s;
+
+}
+
+.footer-links a:hover{
+
+    color:var(--light-green);
+
+    transform:translateX(8px);
+
+}
+
+/*==========================================================
+                    CONTACT
+==========================================================*/
+
+.footer-contact p{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:18px;
+
+    color:rgba(255,255,255,.8);
+
+}
+
+.footer-contact i{
+
+    color:var(--light-green);
+
+}
+
+/*==========================================================
+                SOCIAL MEDIA
+==========================================================*/
+
+.social-icons{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:30px;
+
+}
+
+.social-icons a{
+
+    width:45px;
+
+    height:45px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    transition:.35s;
+
+}
+
+.social-icons a i{
+
+    color:white;
+
+}
+
+.social-icons a:hover{
+
+    background:var(--electric-blue);
+
+    transform:translateY(-6px);
+
+}
+
+/*==========================================================
+                FOOTER BOTTOM
+==========================================================*/
+
+.footer-bottom{
+
+    margin-top:70px;
+
+    border-top:1px solid rgba(255,255,255,.12);
+
+    text-align:center;
+
+    padding:30px 20px;
+
+}
+
+.footer-bottom p{
+
+    color:rgba(255,255,255,.75);
+
+}

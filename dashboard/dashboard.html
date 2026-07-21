@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | AgriSmart</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+<body>
+
+<div class="app-shell">
+
+    <!--=====================================
+                SIDEBAR
+    ======================================-->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="as-logo">
+                <span class="letter-a">A</span>
+                <span class="letter-s">S</span>
+            </div>
+            <h2>AgriSmart</h2>
+        </div>
+
+        <a href="dashboard.html" class="sidebar-link active">
+            <i class="fa-solid fa-house"></i> Overview
+        </a>
+        <a href="farms.html" class="sidebar-link">
+            <i class="fa-solid fa-tractor"></i> My Farms
+        </a>
+        <a href="crops.html" class="sidebar-link">
+            <i class="fa-solid fa-wheat-awn"></i> Crops
+        </a>
+        <a href="livestock.html" class="sidebar-link">
+            <i class="fa-solid fa-cow"></i> Livestock
+        </a>
+        <a href="weather.html" class="sidebar-link">
+            <i class="fa-solid fa-cloud-sun-rain"></i> Weather
+        </a>
+        <a href="#" class="sidebar-link">
+            <i class="fa-solid fa-chart-line"></i> Market
+        </a>
+        <a href="#" class="sidebar-link">
+            <i class="fa-solid fa-wallet"></i> Finances
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="#" id="logout-btn" class="sidebar-link">
+                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+            </a>
+        </div>
+
+    </aside>
+
+    <!--=====================================
+                MAIN AREA
+    ======================================-->
+    <div class="main-area">
+
+        <div class="topbar">
+            <h1>Overview</h1>
+            <div class="topbar-user">
+                <span id="user-name">Loading…</span>
+                <div class="avatar" id="user-avatar">?</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+
+            <div class="stat-grid">
+
+                <div class="stat-card">
+                    <div class="stat-label">My Farms</div>
+                    <div class="stat-value" id="stat-farms">–</div>
+                </div>
+
+                <div class="stat-card" style="border-left-color:var(--electric-blue);">
+                    <div class="stat-label">Enterprises</div>
+                    <div class="stat-value" id="stat-enterprises">–</div>
+                </div>
+
+                <div class="stat-card" style="border-left-color:var(--light-green);">
+                    <div class="stat-label">Active Tasks</div>
+                    <div class="stat-value">0</div>
+                </div>
+
+                <div class="stat-card" style="border-left-color:var(--dark-blue);">
+                    <div class="stat-label">Alerts</div>
+                    <div class="stat-value">0</div>
+                </div>
+
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Your Farms</h2>
+                    <a href="farms.html" class="secondary-btn" style="padding:10px 22px;">Manage Farms</a>
+                </div>
+                <div id="recent-farms">
+                    <p style="color:var(--dark-grey);">Loading your farms…</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/dashboard.js"></script>
+
+</body>
+</html>
