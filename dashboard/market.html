@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market | AgriSmart</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+<body>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="as-logo">
+                <span class="letter-a">A</span>
+                <span class="letter-s">S</span>
+            </div>
+            <h2>AgriSmart</h2>
+        </div>
+
+        <a href="dashboard.html" class="sidebar-link">
+            <i class="fa-solid fa-house"></i> Overview
+        </a>
+        <a href="farms.html" class="sidebar-link">
+            <i class="fa-solid fa-tractor"></i> My Farms
+        </a>
+        <a href="crops.html" class="sidebar-link">
+            <i class="fa-solid fa-wheat-awn"></i> Crops
+        </a>
+        <a href="livestock.html" class="sidebar-link">
+            <i class="fa-solid fa-cow"></i> Livestock
+        </a>
+        <a href="weather.html" class="sidebar-link">
+            <i class="fa-solid fa-cloud-sun-rain"></i> Weather
+        </a>
+        <a href="market.html" class="sidebar-link active">
+            <i class="fa-solid fa-chart-line"></i> Market
+        </a>
+        <a href="finances.html" class="sidebar-link">
+            <i class="fa-solid fa-wallet"></i> Finances
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="#" id="logout-btn" class="sidebar-link">
+                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+            </a>
+        </div>
+
+    </aside>
+
+    <div class="main-area">
+
+        <div class="topbar">
+            <h1>Market</h1>
+            <div class="topbar-user">
+                <span id="user-name">Loading…</span>
+                <div class="avatar" id="user-avatar">?</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+
+            <!--=====================================
+                    TAB SWITCH
+            ======================================-->
+            <div class="farm-select-bar">
+                <button class="secondary-btn market-tab-btn active" data-tab="prices" style="padding:12px 26px;">
+                    <i class="fa-solid fa-chart-line"></i> Price Board
+                </button>
+                <button class="secondary-btn market-tab-btn" data-tab="marketplace" style="padding:12px 26px;">
+                    <i class="fa-solid fa-store"></i> Marketplace
+                </button>
+            </div>
+
+            <!--=====================================
+                    PRICE BOARD TAB
+            ======================================-->
+            <div id="tab-prices">
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Commodity Prices</h2>
+                        <button class="primary-btn" id="open-add-price" style="padding:12px 26px;">
+                            <i class="fa-solid fa-plus"></i> Submit a Price
+                        </button>
+                    </div>
+                    <div id="prices-list">
+                        <p style="color:var(--dark-grey);">Loading…</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--=====================================
+                    MARKETPLACE TAB
+            ======================================-->
+            <div id="tab-marketplace" style="display:none;">
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2>Produce For Sale</h2>
+                        <button class="primary-btn" id="open-add-listing" style="padding:12px 26px;">
+                            <i class="fa-solid fa-plus"></i> List Produce
+                        </button>
+                    </div>
+                    <div id="listings-list">
+                        <p style="color:var(--dark-grey);">Loading…</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--=====================================
+        SUBMIT PRICE MODAL
+======================================-->
+<div class="modal-overlay" id="add-price-modal">
+    <div class="modal-box">
+        <h3>Submit a Market Price</h3>
+        <form id="add-price-form">
+
+            <div class="form-group">
+                <label for="price_commodity">Commodity</label>
+                <input type="text" id="price_commodity" required placeholder="e.g. Maize">
+            </div>
+
+            <div class="form-group">
+                <label for="price_county">County</label>
+                <input type="text" id="price_county" required placeholder="e.g. Nakuru">
+            </div>
+
+            <div class="form-group">
+                <label for="price_value">Price</label>
+                <input type="number" id="price_value" step="0.01" required placeholder="e.g. 45">
+            </div>
+
+            <div class="form-group">
+                <label for="price_unit">Unit</label>
+                <select id="price_unit">
+                    <option value="kg">per kg</option>
+                    <option value="90kg bag">per 90kg bag</option>
+                    <option value="litre">per litre</option>
+                    <option value="crate">per crate</option>
+                    <option value="head">per head</option>
+                </select>
+            </div>
+
+            <div id="price-form-error" class="form-error"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" id="cancel-add-price" style="padding:12px 26px;">Cancel</button>
+                <button type="submit" class="primary-btn" style="padding:12px 26px;">Submit</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!--=====================================
+        LIST PRODUCE MODAL
+======================================-->
+<div class="modal-overlay" id="add-listing-modal">
+    <div class="modal-box">
+        <h3>List Produce For Sale</h3>
+        <form id="add-listing-form">
+
+            <div class="form-group">
+                <label for="listing_commodity">Commodity</label>
+                <input type="text" id="listing_commodity" required placeholder="e.g. Tomatoes">
+            </div>
+
+            <div class="form-group">
+                <label for="listing_quantity">Quantity</label>
+                <input type="number" id="listing_quantity" step="0.01" required placeholder="e.g. 200">
+            </div>
+
+            <div class="form-group">
+                <label for="listing_unit">Unit</label>
+                <select id="listing_unit">
+                    <option value="kg">kg</option>
+                    <option value="90kg bag">90kg bag</option>
+                    <option value="litre">litre</option>
+                    <option value="crate">crate</option>
+                    <option value="head">head</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="listing_price">Price (per unit)</label>
+                <input type="number" id="listing_price" step="0.01" required placeholder="e.g. 40">
+            </div>
+
+            <div class="form-group">
+                <label for="listing_county">County</label>
+                <input type="text" id="listing_county" required placeholder="e.g. Nakuru">
+            </div>
+
+            <div class="form-group">
+                <label for="listing_description">Description (optional)</label>
+                <textarea id="listing_description" rows="3" placeholder="Any details buyers should know"></textarea>
+            </div>
+
+            <div id="listing-form-error" class="form-error"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" id="cancel-add-listing" style="padding:12px 26px;">Cancel</button>
+                <button type="submit" class="primary-btn" style="padding:12px 26px;">Post Listing</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/market.js"></script>
+
+</body>
+</html>
