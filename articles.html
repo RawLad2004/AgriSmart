@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles | AgriSmart</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+</head>
+<body>
+
+<header>
+<nav class="navbar">
+
+<div class="logo">
+    <div class="as-logo">
+        <span class="letter-a">A</span>
+        <span class="letter-s">S</span>
+    </div>
+    <h2>AgriSmart</h2>
+</div>
+
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a href="articles.html">Articles</a></li>
+<li><a href="index.html#services">Crops</a></li>
+<li><a href="index.html#services">Livestock</a></li>
+<li><a href="index.html#services">Weather</a></li>
+<li><a href="index.html#services">Markets</a></li>
+<li><a href="index.html#contact">Contact</a></li>
+</ul>
+
+<div class="nav-buttons">
+<button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+<button class="login-btn" onclick="window.location.href='auth/login.html'">Login</button>
+<button class="start-btn" onclick="window.location.href='auth/signup.html'">Get Started</button>
+</div>
+
+</nav>
+</header>
+
+<!--=====================================
+            PAGE HEADER
+======================================-->
+<section style="background:var(--primary-gradient);padding:180px 8% 80px;text-align:center;">
+    <h1 style="color:white;font-size:2.6rem;">AgriSmart Knowledge Hub</h1>
+    <p style="color:rgba(255,255,255,.9);max-width:600px;margin:20px auto 0;font-size:1.1rem;">
+        Practical guides on crops, livestock, weather and markets — written by the AgriSmart community.
+    </p>
+</section>
+
+<!--=====================================
+            ARTICLE GRID
+======================================-->
+<section class="articles">
+
+    <div class="farm-select-bar" style="max-width:1400px;margin:0 auto 40px;">
+        <input type="text" id="search-input" placeholder="Search articles…" style="flex:1;min-width:220px;padding:14px 18px;border:2px solid var(--light-grey);border-radius:var(--radius-medium);font-size:1rem;">
+        <select id="category-filter" style="padding:14px 18px;border:2px solid var(--light-grey);border-radius:var(--radius-medium);font-size:1rem;background:white;">
+            <option value="">All Categories</option>
+        </select>
+    </div>
+
+    <div class="article-container" id="article-grid">
+        <p style="grid-column:1/-1;text-align:center;color:var(--dark-grey);">Loading articles…</p>
+    </div>
+
+</section>
+
+<!--=====================================
+                FOOTER
+======================================-->
+<footer id="contact">
+    <div class="footer-container">
+        <div class="footer-logo">
+           <div class="logo">
+            <img src="images/logo-icon.png" alt="AgriSmart Logo">
+            </div>
+            <p>Empowering farmers, students and veterinarians through smart agriculture, innovation and technology.</p>
+        </div>
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="articles.html">Articles</a>
+            <a href="index.html#services">Markets</a>
+            <a href="index.html#services">Weather</a>
+        </div>
+        <div class="footer-links">
+            <h3>Resources</h3>
+            <a href="articles.html">Crop Guides</a>
+            <a href="articles.html">Livestock</a>
+            <a href="articles.html">Veterinary</a>
+            <a href="articles.html">FAQs</a>
+            <a href="articles.html">Support</a>
+        </div>
+        <div class="footer-contact">
+            <h3>Contact</h3>
+            <p><i class="fa-solid fa-location-dot"></i> Nairobi, Kenya</p>
+            <p><i class="fa-solid fa-phone"></i> +254 700 000000</p>
+            <p><i class="fa-solid fa-envelope"></i> info@agrismart.co.ke</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 AgriSmart Technologies. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/articles-public.js"></script>
+
+</body>
+</html>

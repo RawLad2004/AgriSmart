@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -64,21 +64,21 @@
 
 <ul class="nav-links">
 
-<li><a href="#">Home</a></li>
+<li><a href="index.html">Home</a></li>
 
-<li><a href="#">About</a></li>
+<li><a href="#about">About</a></li>
 
-<li><a href="#">Articles</a></li>
+<li><a href="articles.html">Articles</a></li>
 
-<li><a href="#">Crops</a></li>
+<li><a href="#services">Crops</a></li>
 
-<li><a href="#">Livestock</a></li>
+<li><a href="#services">Livestock</a></li>
 
-<li><a href="#">Weather</a></li>
+<li><a href="#services">Weather</a></li>
 
-<li><a href="#">Markets</a></li>
+<li><a href="#services">Markets</a></li>
 
-<li><a href="#">Contact</a></li>
+<li><a href="#contact">Contact</a></li>
 
 </ul>
 
@@ -141,7 +141,7 @@ Explore Platform
 
 </button>
 
-<button class="secondary-btn">
+<button class="secondary-btn" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
 
 Learn More
 
@@ -168,7 +168,7 @@ alt="Agriculture">
           FEATURED SERVICES
 ======================================-->
 
-<section class="services">
+<section class="services" id="services">
 
 <h2>
 
@@ -250,7 +250,7 @@ buyer connections.
              ABOUT SECTION
 ======================================-->
 
-<section class="about">
+<section class="about" id="about">
 
 <div class="about-image">
 
@@ -330,7 +330,7 @@ Latest Articles
 
 </h2>
 
-<div class="article-container">
+<div class="article-container" id="home-article-container">
 
 <div class="article-card">
 
@@ -351,7 +351,7 @@ nutrition management.
 
 </p>
 
-<a href="#">
+<a href="articles.html">
 
 Read More →
 
@@ -378,7 +378,7 @@ protecting the environment.
 
 </p>
 
-<a href="#">
+<a href="articles.html">
 
 Read More →
 
@@ -405,7 +405,7 @@ production.
 
 </p>
 
-<a href="#">
+<a href="articles.html">
 
 Read More →
 
@@ -420,7 +420,7 @@ Read More →
                 FOOTER
 ======================================-->
 
-<footer>
+<footer id="contact">
 
     <div class="footer-container">
 
@@ -447,15 +447,15 @@ Read More →
 
             <h3>Quick Links</h3>
 
-            <a href="#">Home</a>
+            <a href="index.html">Home</a>
 
-            <a href="#">About</a>
+            <a href="#about">About</a>
 
-            <a href="#">Articles</a>
+            <a href="articles.html">Articles</a>
 
-            <a href="#">Markets</a>
+            <a href="#services">Markets</a>
 
-            <a href="#">Weather</a>
+            <a href="#services">Weather</a>
 
         </div>
 
@@ -463,15 +463,15 @@ Read More →
 
             <h3>Resources</h3>
 
-            <a href="#">Crop Guides</a>
+            <a href="articles.html">Crop Guides</a>
 
-            <a href="#">Livestock</a>
+            <a href="articles.html">Livestock</a>
 
-            <a href="#">Veterinary</a>
+            <a href="articles.html">Veterinary</a>
 
-            <a href="#">FAQs</a>
+            <a href="articles.html">FAQs</a>
 
-            <a href="#">Support</a>
+            <a href="articles.html">Support</a>
 
         </div>
 
@@ -536,7 +536,9 @@ Read More →
 <script src="js/navbar.js"></script>
 <script src="js/animations.js"></script>
 <script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/home-articles.js"></script>
 
 </body>
-
 </html>

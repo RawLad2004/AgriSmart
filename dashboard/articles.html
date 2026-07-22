@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Hub | AgriSmart</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+<body>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="as-logo">
+                <span class="letter-a">A</span>
+                <span class="letter-s">S</span>
+            </div>
+            <h2>AgriSmart</h2>
+        </div>
+
+        <a href="dashboard.html" class="sidebar-link">
+            <i class="fa-solid fa-house"></i> Overview
+        </a>
+        <a href="farms.html" class="sidebar-link">
+            <i class="fa-solid fa-tractor"></i> My Farms
+        </a>
+        <a href="crops.html" class="sidebar-link">
+            <i class="fa-solid fa-wheat-awn"></i> Crops
+        </a>
+        <a href="livestock.html" class="sidebar-link">
+            <i class="fa-solid fa-cow"></i> Livestock
+        </a>
+        <a href="weather.html" class="sidebar-link">
+            <i class="fa-solid fa-cloud-sun-rain"></i> Weather
+        </a>
+        <a href="market.html" class="sidebar-link">
+            <i class="fa-solid fa-chart-line"></i> Market
+        </a>
+        <a href="finances.html" class="sidebar-link">
+            <i class="fa-solid fa-wallet"></i> Finances
+        </a>
+        <a href="articles.html" class="sidebar-link active">
+            <i class="fa-solid fa-book"></i> Knowledge Hub
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="#" id="logout-btn" class="sidebar-link">
+                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+            </a>
+        </div>
+
+    </aside>
+
+    <div class="main-area">
+
+        <div class="topbar">
+            <h1>Knowledge Hub</h1>
+            <div class="topbar-user">
+                <div class="notif-bell" id="notif-bell">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notif-badge" id="notif-badge">0</span>
+                    <div class="notif-dropdown" id="notif-dropdown" onclick="event.stopPropagation()">
+                        <div class="notif-dropdown-header">
+                            <span>Notifications</span>
+                            <button type="button" id="mark-all-read">Mark all read</button>
+                        </div>
+                        <div id="notif-list"></div>
+                    </div>
+                </div>
+                <span id="user-name">Loading…</span>
+                <div class="avatar" id="user-avatar">?</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>My Articles</h2>
+                    <button class="primary-btn" id="open-add-article" style="padding:12px 26px;">
+                        <i class="fa-solid fa-plus"></i> Write Article
+                    </button>
+                </div>
+                <div id="my-articles-list">
+                    <p style="color:var(--dark-grey);">Loading…</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--=====================================
+        WRITE/EDIT ARTICLE MODAL
+======================================-->
+<div class="modal-overlay" id="add-article-modal">
+    <div class="modal-box" style="max-width:640px;">
+        <h3 id="article-modal-title">Write an Article</h3>
+        <form id="add-article-form">
+
+            <input type="hidden" id="article_id">
+
+            <div class="form-group">
+                <label for="article_title">Title</label>
+                <input type="text" id="article_title" required placeholder="e.g. Managing Sheep Health">
+            </div>
+
+            <div class="form-group">
+                <label for="article_category">Category</label>
+                <input type="text" id="article_category" required placeholder="e.g. Livestock, Crops, Weather" value="General">
+            </div>
+
+            <div class="form-group">
+                <label for="article_cover">Cover image URL (optional)</label>
+                <input type="url" id="article_cover" placeholder="https://…">
+            </div>
+
+            <div class="form-group">
+                <label for="article_excerpt">Short excerpt (optional — shown on cards)</label>
+                <input type="text" id="article_excerpt" placeholder="One-sentence summary">
+            </div>
+
+            <div class="form-group">
+                <label for="article_body">Article content</label>
+                <textarea id="article_body" rows="8" required placeholder="Write the full article here…"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="article_published">Status</label>
+                <select id="article_published">
+                    <option value="true">Published</option>
+                    <option value="false">Draft (only visible to you)</option>
+                </select>
+            </div>
+
+            <div id="article-form-error" class="form-error"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" id="cancel-add-article" style="padding:12px 26px;">Cancel</button>
+                <button type="submit" class="primary-btn" style="padding:12px 26px;">Save</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/notifications.js"></script>
+<script src="../js/articles.js"></script>
+
+</body>
+</html>
