@@ -12,13 +12,17 @@
   // ---- Profile / topbar ----
   const { data: profile } = await sb
     .from("profiles")
-    .select("full_name")
+    .select("full_name, role")
     .eq("id", user.id)
     .single();
 
   const displayName = profile?.full_name || user.email;
   document.getElementById("user-name").textContent = displayName;
   document.getElementById("user-avatar").textContent = displayName.charAt(0).toUpperCase();
+
+  if (profile?.role === "admin") {
+    document.getElementById("admin-sidebar-link").style.display = "flex";
+  }
 
   await initNotificationBell(user.id);
 
