@@ -75,6 +75,15 @@ async function loadWeatherForFarm(farm) {
   try {
     const payload = await getWeatherForLocation(farm.county);
     renderWeather(payload, farm.name);
+
+    if (payload.current.rain_expected) {
+      pushNotificationOnce(
+        currentUserId,
+        "weather",
+        `Rain expected at ${farm.name}`,
+        `Current conditions near ${farm.county}: ${payload.current.description}. Plan field work accordingly.`
+      );
+    }
   } catch (err) {
     box.innerHTML = `<p class="form-error">Couldn't fetch weather: ${err.message}</p>`;
   }
@@ -96,6 +105,8 @@ async function loadWeatherForFarm(farm) {
   const displayName = profile?.full_name || session.user.email;
   document.getElementById("user-name").textContent = displayName;
   document.getElementById("user-avatar").textContent = displayName.charAt(0).toUpperCase();
+
+  await initNotificationBell(currentUserId);
 
   const { data: farms } = await sb
     .from("farms")

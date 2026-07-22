@@ -79,6 +79,8 @@ async function loadFarms() {
   document.getElementById("user-name").textContent = displayName;
   document.getElementById("user-avatar").textContent = displayName.charAt(0).toUpperCase();
 
+  await initNotificationBell(currentUserId);
+
   await loadFarms();
 
   // ---- Modal open/close ----

@@ -20,6 +20,8 @@
   document.getElementById("user-name").textContent = displayName;
   document.getElementById("user-avatar").textContent = displayName.charAt(0).toUpperCase();
 
+  await initNotificationBell(user.id);
+
   // ---- Farms ----
   const { data: farms, error: farmsError } = await sb
     .from("farms")
