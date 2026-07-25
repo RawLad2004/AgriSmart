@@ -56,7 +56,67 @@ function renderWeather(payload, farmName) {
         `).join("")}
       </div>
     </div>
+
+    <div class="panel" id="equipment-suggestions-panel">
+      <div class="panel-header">
+        <h2>Recommended For This Week's Weather</h2>
+      </div>
+      <div id="equipment-suggestions-list">
+        <p style="color:var(--dark-grey);">Checking the marketplace for matches…</p>
+      </div>
+    </div>
   `;
+
+  renderEquipmentSuggestions(payload);
+}
+
+/*==========================================================
+    renderEquipmentSuggestions(payload)
+    Runs the rule engine (js/equipment-suggestions.js) against
+    the current weather payload, then checks the marketplace
+    for a live match on each suggested item so a card can
+    either deep-link to an existing listing or offer a
+    one-click want-ad shortcut.
+==========================================================*/
+async function renderEquipmentSuggestions(payload) {
+  const box = document.getElementById("equipment-suggestions-list");
+  const suggestions = getEquipmentSuggestions(payload);
+
+  if (suggestions.length === 0) {
+    box.innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-circle-check"></i>
+        <p>Nothing unusual in this week's forecast — no extra equipment needed right now.</p>
+      </div>`;
+    return;
+  }
+
+  const withMatches = await Promise.all(suggestions.map(async (s) => {
+    const { data } = await sb
+      .from("marketplace_listings")
+      .select("id")
+      .ilike("commodity", `%${s.item}%`)
+      .eq("status", "available")
+      .limit(1);
+    return { ...s, hasMatch: !!(data && data.length) };
+  }));
+
+  box.innerHTML = `
+    <div class="service-container">
+      ${withMatches.map(s => `
+        <a class="equipment-card" href="market.html?tab=marketplace&search=${encodeURIComponent(s.item)}${s.hasMatch ? "" : "&prefill=1"}"
+           style="text-decoration:none;color:inherit;display:block;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+            <i class="${s.icon}" style="font-size:1.3rem;color:var(--primary-green);"></i>
+            <strong>${s.item}</strong>
+          </div>
+          <p style="font-size:.9rem;color:var(--dark-grey);margin-bottom:12px;">${s.reason}</p>
+          <span class="badge" style="background:${s.hasMatch ? "var(--light-green)" : "var(--electric-blue)"};color:white;">
+            ${s.hasMatch ? "Available in Marketplace" : "Post a want-ad"}
+          </span>
+        </a>
+      `).join("")}
+    </div>`;
 }
 
 async function loadWeatherForFarm(farm) {

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | AgriSmart</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+<body>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="as-logo">
+                <span class="letter-a">A</span>
+                <span class="letter-s">S</span>
+            </div>
+            <h2>AgriSmart</h2>
+        </div>
+
+        <a href="dashboard.html" class="sidebar-link">
+            <i class="fa-solid fa-house"></i> Overview
+        </a>
+        <a href="farms.html" class="sidebar-link">
+            <i class="fa-solid fa-tractor"></i> My Farms
+        </a>
+        <a href="crops.html" class="sidebar-link">
+            <i class="fa-solid fa-wheat-awn"></i> Crops
+        </a>
+        <a href="livestock.html" class="sidebar-link">
+            <i class="fa-solid fa-cow"></i> Livestock
+        </a>
+        <a href="weather.html" class="sidebar-link">
+            <i class="fa-solid fa-cloud-sun-rain"></i> Weather
+        </a>
+        <a href="market.html" class="sidebar-link">
+            <i class="fa-solid fa-chart-line"></i> Market
+        </a>
+        <a href="finances.html" class="sidebar-link">
+            <i class="fa-solid fa-wallet"></i> Finances
+        </a>
+        <a href="articles.html" class="sidebar-link">
+            <i class="fa-solid fa-book"></i> Knowledge Hub
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="profile.html" class="sidebar-link active">
+                <i class="fa-solid fa-user-gear"></i> Profile
+            </a>
+            <a href="#" id="logout-btn" class="sidebar-link">
+                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+            </a>
+        </div>
+
+    </aside>
+
+    <div class="main-area">
+
+        <div class="topbar">
+            <h1>My Profile</h1>
+            <div class="topbar-user">
+                <div class="notif-bell" id="notif-bell">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notif-badge" id="notif-badge">0</span>
+                    <div class="notif-dropdown" id="notif-dropdown" onclick="event.stopPropagation()">
+                        <div class="notif-dropdown-header">
+                            <span>Notifications</span>
+                            <button type="button" id="mark-all-read">Mark all read</button>
+                        </div>
+                        <div id="notif-list"></div>
+                    </div>
+                </div>
+                <span id="user-name">Loading…</span>
+                <div class="avatar" id="user-avatar">?</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+
+            <div id="profile-setup-banner" style="display:none;" class="alert-banner">
+                <i class="fa-solid fa-circle-info"></i>
+                Welcome to AgriSmart! Complete your profile below — your county is what we use to fetch weather for your farms.
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Profile Details</h2>
+                </div>
+
+                <form id="profile-form">
+
+                    <div style="display:flex;align-items:center;gap:20px;margin-bottom:25px;">
+                        <div class="avatar" id="profile-avatar-preview" style="width:72px;height:72px;font-size:1.8rem;">?</div>
+                        <div>
+                            <label for="avatar_upload" class="secondary-btn" style="display:inline-block;padding:10px 20px;cursor:pointer;">
+                                <i class="fa-solid fa-camera"></i> Change photo
+                            </label>
+                            <input type="file" id="avatar_upload" accept="image/*" style="display:none;">
+                            <div id="avatar-upload-status" style="font-size:.85rem;color:var(--dark-grey);margin-top:6px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="full_name">Full name</label>
+                        <input type="text" id="full_name" required placeholder="Jane Wanjiru">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="county">County</label>
+                        <input type="text" id="county" required placeholder="Nakuru">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone_number">Phone number</label>
+                        <input type="tel" id="phone_number" placeholder="e.g. 07XX XXX XXX">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferred_units">Preferred units</label>
+                        <select id="preferred_units">
+                            <option value="metric">Metric (°C, kg, km)</option>
+                            <option value="imperial">Imperial (°F, lb, mi)</option>
+                        </select>
+                    </div>
+
+                    <div id="profile-form-error" class="form-error"></div>
+                    <div id="profile-form-success" style="display:none;color:var(--dark-green);margin-bottom:15px;font-size:.9rem;"></div>
+
+                    <button type="submit" class="primary-btn" style="padding:12px 26px;">Save Changes</button>
+
+                </form>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Email</h2>
+                </div>
+                <form id="email-form">
+                    <div class="form-group">
+                        <label for="account_email">Account email</label>
+                        <input type="email" id="account_email" required>
+                    </div>
+                    <div id="email-form-error" class="form-error"></div>
+                    <div id="email-form-success" style="display:none;color:var(--dark-green);margin-bottom:15px;font-size:.9rem;"></div>
+                    <button type="submit" class="secondary-btn" style="padding:12px 26px;">Update Email</button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Change Password</h2>
+                </div>
+                <form id="password-form">
+                    <div class="form-group">
+                        <label for="pw_new">New password</label>
+                        <input type="password" id="pw_new" required minlength="6" placeholder="At least 6 characters">
+                    </div>
+                    <div class="form-group">
+                        <label for="pw_confirm">Confirm new password</label>
+                        <input type="password" id="pw_confirm" required minlength="6" placeholder="Re-enter password">
+                    </div>
+                    <div id="password-form-error" class="form-error"></div>
+                    <div id="password-form-success" style="display:none;color:var(--dark-green);margin-bottom:15px;font-size:.9rem;"></div>
+                    <button type="submit" class="secondary-btn" style="padding:12px 26px;">Update Password</button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/notifications.js"></script>
+<script src="../js/profile.js"></script>
+
+<script src="../js/table-scroll.js"></script>
+
+</body>
+</html>

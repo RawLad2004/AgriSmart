@@ -5,6 +5,8 @@
 let currentUserId = null;
 let userFarms = [];
 let selectedEnterpriseId = null;
+let currentAnimalsCache = [];
+let selectedEnterpriseType = "livestock";
 
 const LIVESTOCK_TYPES = ["livestock", "dairy", "poultry", "aquaculture", "apiary"];
 
@@ -72,7 +74,7 @@ async function loadEnterprises() {
             <td><span class="badge">${e.type}</span></td>
             <td>${farmNameById[e.farm_id] || "—"}</td>
             <td>
-              <button class="secondary-btn manage-animals-btn" data-id="${e.id}" data-name="${e.name}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn manage-animals-btn" data-id="${e.id}" data-name="${e.name}" data-type="${e.type}" style="padding:8px 16px;font-size:.85rem;">
                 Manage Animals
               </button>
               <button class="secondary-btn delete-enterprise-btn" data-id="${e.id}" style="padding:8px 16px;font-size:.85rem;">
@@ -87,6 +89,7 @@ async function loadEnterprises() {
   document.querySelectorAll(".manage-animals-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       selectedEnterpriseId = btn.dataset.id;
+      selectedEnterpriseType = btn.dataset.type;
       document.getElementById("animals-panel-title").textContent = `Animals — ${btn.dataset.name}`;
       document.getElementById("animals-panel").style.display = "block";
       loadAnimals();
@@ -120,6 +123,8 @@ async function loadAnimals() {
     .eq("enterprise_id", selectedEnterpriseId)
     .order("created_at", { ascending: false });
 
+  currentAnimalsCache = animals || [];
+
   if (error) {
     listBox.innerHTML = `<p class="form-error">Couldn't load animals: ${error.message}</p>`;
     return;
@@ -150,6 +155,9 @@ async function loadAnimals() {
             <td>${a.dob || "—"}</td>
             <td><span class="badge" style="background:${statusColor[a.status]};color:white;">${a.status}</span></td>
             <td>
+              <button class="secondary-btn manage-records-btn" data-id="${a.id}" style="padding:8px 16px;font-size:.85rem;">
+                <i class="fa-solid fa-notes-medical"></i> Records
+              </button>
               <button class="secondary-btn delete-animal-btn" data-id="${a.id}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
@@ -158,6 +166,13 @@ async function loadAnimals() {
         `).join("")}
       </tbody>
     </table>`;
+
+  document.querySelectorAll(".manage-records-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const animal = currentAnimalsCache.find(a => a.id === btn.dataset.id);
+      if (animal) openAnimalRecordsModal(animal);
+    });
+  });
 
   document.querySelectorAll(".delete-animal-btn").forEach(btn => {
     btn.addEventListener("click", async () => {
@@ -187,9 +202,18 @@ async function loadAnimals() {
   document.getElementById("user-avatar").textContent = displayName.charAt(0).toUpperCase();
 
   await initNotificationBell(currentUserId);
+  initAnimalRecords(currentUserId);
 
   await loadFarmsForDropdown();
   await loadEnterprises();
+
+  // ---- Species picker ----
+  document.getElementById("open-species-picker").addEventListener("click", () => {
+    openSpeciesPicker(selectedEnterpriseType, ({ species, breed }) => {
+      document.getElementById("animal_species").value = species;
+      if (breed) document.getElementById("animal_breed").value = breed;
+    });
+  });
 
   // ---- Add enterprise modal ----
   const entModal = document.getElementById("add-enterprise-modal");

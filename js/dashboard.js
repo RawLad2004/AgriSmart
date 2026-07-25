@@ -12,13 +12,22 @@
   // ---- Profile / topbar ----
   const { data: profile } = await sb
     .from("profiles")
-    .select("full_name, role")
+    .select("full_name, role, avatar_url")
     .eq("id", user.id)
     .single();
 
   const displayName = profile?.full_name || user.email;
   document.getElementById("user-name").textContent = displayName;
-  document.getElementById("user-avatar").textContent = displayName.charAt(0).toUpperCase();
+
+  const avatarEl = document.getElementById("user-avatar");
+  if (profile?.avatar_url) {
+    avatarEl.style.backgroundImage = `url("${profile.avatar_url}")`;
+    avatarEl.style.backgroundSize = "cover";
+    avatarEl.style.backgroundPosition = "center";
+    avatarEl.textContent = "";
+  } else {
+    avatarEl.textContent = displayName.charAt(0).toUpperCase();
+  }
 
   if (profile?.role === "admin") {
     document.getElementById("admin-sidebar-link").style.display = "flex";

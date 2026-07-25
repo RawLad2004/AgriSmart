@@ -7,17 +7,31 @@ let currentUserId = null;
 /*==========================================================
                     TAB SWITCHING
 ==========================================================*/
+function switchMarketTab(tab) {
+  document.querySelectorAll(".market-tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  document.getElementById("tab-prices").style.display = tab === "prices" ? "block" : "none";
+  document.getElementById("tab-marketplace").style.display = tab === "marketplace" ? "block" : "none";
+}
+
 function initTabs() {
   document.querySelectorAll(".market-tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".market-tab-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const tab = btn.dataset.tab;
-      document.getElementById("tab-prices").style.display = tab === "prices" ? "block" : "none";
-      document.getElementById("tab-marketplace").style.display = tab === "marketplace" ? "block" : "none";
-    });
+    btn.addEventListener("click", () => switchMarketTab(btn.dataset.tab));
   });
+}
+
+/*==========================================================
+    openAddListingModal(prefillCommodity)
+    Opens the "List Produce" modal, optionally pre-filling
+    the commodity field — used by the marketplace search's
+    "post a want-ad" shortcut and by deep links coming in
+    from the Weather page's equipment suggestions.
+==========================================================*/
+function openAddListingModal(prefillCommodity) {
+  const listingModal = document.getElementById("add-listing-modal");
+  if (prefillCommodity) {
+    document.getElementById("listing_commodity").value = prefillCommodity;
+  }
+  listingModal.classList.add("active");
 }
 
 /*==========================================================
@@ -85,7 +99,7 @@ async function loadPrices() {
 async function loadListings() {
   const listBox = document.getElementById("listings-list");
 
-  const { data: listings, error } = await sb
+  const { data: allListings, error } = await sb
     .from("marketplace_listings")
     .select("id, commodity, quantity, unit, price, county, description, status, seller_id")
     .order("created_at", { ascending: false });
@@ -95,12 +109,35 @@ async function loadListings() {
     return;
   }
 
+  const searchInput = document.getElementById("marketplace-search");
+  const searchTerm = (searchInput?.value || "").trim().toLowerCase();
+
+  const listings = searchTerm
+    ? (allListings || []).filter(l =>
+        l.commodity.toLowerCase().includes(searchTerm) ||
+        (l.description && l.description.toLowerCase().includes(searchTerm))
+      )
+    : (allListings || []);
+
   if (!listings || listings.length === 0) {
-    listBox.innerHTML = `
+    listBox.innerHTML = searchTerm ? `
+      <div class="empty-state">
+        <i class="fa-solid fa-store"></i>
+        <p>No listings match "${searchTerm}" yet.</p>
+        <button class="primary-btn" id="want-ad-from-empty" style="display:inline-block;margin-top:20px;">
+          <i class="fa-solid fa-plus"></i> Post a want-ad for "${searchTerm}"
+        </button>
+      </div>` : `
       <div class="empty-state">
         <i class="fa-solid fa-store"></i>
         <p>No produce listed yet. Post the first one.</p>
       </div>`;
+
+    if (searchTerm) {
+      document.getElementById("want-ad-from-empty").addEventListener("click", () => {
+        openAddListingModal(searchTerm);
+      });
+    }
     return;
   }
 
@@ -159,6 +196,27 @@ async function loadListings() {
   await loadPrices();
   await loadListings();
 
+  // ---- Search box ----
+  document.getElementById("marketplace-search").addEventListener("input", () => loadListings());
+
+  // ---- Deep-link support: market.html?tab=marketplace&search=tarpaulin&prefill=1
+  // (used by the Weather page's equipment suggestions to jump straight into a
+  // filtered marketplace search, or straight into a pre-filled want-ad form) ----
+  const params = new URLSearchParams(window.location.search);
+  const deepTab = params.get("tab");
+  const deepSearch = params.get("search");
+
+  if (deepTab === "marketplace") {
+    switchMarketTab("marketplace");
+  }
+  if (deepSearch) {
+    document.getElementById("marketplace-search").value = deepSearch;
+    await loadListings();
+    if (params.get("prefill") === "1") {
+      openAddListingModal(deepSearch);
+    }
+  }
+
   // ---- Submit price ----
   const priceModal = document.getElementById("add-price-modal");
   document.getElementById("open-add-price").addEventListener("click", () => priceModal.classList.add("active"));
@@ -189,7 +247,7 @@ async function loadListings() {
 
   // ---- Post listing ----
   const listingModal = document.getElementById("add-listing-modal");
-  document.getElementById("open-add-listing").addEventListener("click", () => listingModal.classList.add("active"));
+  document.getElementById("open-add-listing").addEventListener("click", () => openAddListingModal());
   document.getElementById("cancel-add-listing").addEventListener("click", () => listingModal.classList.remove("active"));
 
   document.getElementById("add-listing-form").addEventListener("submit", async (e) => {

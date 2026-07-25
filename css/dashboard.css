@@ -712,6 +712,44 @@ table.data-table{
 
 }
 
+.record-tab-btn.active{
+
+    background:var(--primary-green);
+
+    color:white;
+
+    border-color:var(--primary-green);
+
+}
+
+.equipment-card{
+
+    border:1px solid var(--light-grey);
+
+    border-radius:var(--radius-medium);
+
+    padding:18px;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    background:white;
+
+}
+
+.equipment-card:hover{
+
+    border-color:var(--primary-green);
+
+    box-shadow:var(--shadow-medium);
+
+    transform:translateY(-2px);
+
+}
+
 .weather-hero{
 
     background:var(--primary-gradient);
