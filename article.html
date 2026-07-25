@@ -16,6 +16,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
     <script src="js/theme.js"></script>
+    <script src="js/navbar.js"></script>
 
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/navbar.css">
@@ -83,6 +84,8 @@
     </div>
     <h2>AgriSmart</h2>
 </div>
+<div class="mobile-menu" id="mobile-menu">
+
 <ul class="nav-links">
 <li><a href="index.html">Home</a></li>
 <li><a href="index.html#about">About</a></li>
@@ -99,6 +102,14 @@
 <button class="login-btn" onclick="window.location.href='auth/login.html'">Login</button>
 <button class="start-btn" onclick="window.location.href='auth/signup.html'">Get Started</button>
 </div>
+
+</div>
+
+<button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+<i class="fa-solid fa-bars"></i>
+<i class="fa-solid fa-xmark"></i>
+</button>
+
 </nav>
 </header>
 
