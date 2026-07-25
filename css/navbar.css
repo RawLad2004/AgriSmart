@@ -314,3 +314,89 @@ header{
     margin-bottom:20px;
 
 }
+/*==========================================================
+                RESPONSIVE NAVBAR
+==========================================================*/
+
+@media (max-width: 992px){
+
+    .navbar{
+        padding: 0 20px;
+        height: 80px;
+    }
+
+    .logo h2{
+        font-size: 22px;
+    }
+
+    .as-logo{
+        width: 48px;
+        height: 48px;
+    }
+
+    .nav-links{
+        gap: 15px;
+    }
+
+    .nav-links a{
+        font-size: .9rem;
+    }
+
+    .nav-buttons{
+        gap: 10px;
+    }
+
+    .login-btn,
+    .start-btn{
+        padding: 10px 16px;
+        font-size: .85rem;
+    }
+
+    .search-btn{
+        width:40px;
+        height:40px;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .navbar{
+        padding:0 18px;
+        height:75px;
+    }
+
+    .logo h2{
+        font-size:20px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .nav-buttons{
+        display:none;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .navbar{
+        padding:0 15px;
+    }
+
+    .logo h2{
+        font-size:18px;
+    }
+
+    .as-logo{
+        width:42px;
+        height:42px;
+    }
+
+}
