@@ -247,6 +247,9 @@
 
 /*==========================================================
             FLOATING INFORMATION CARDS
+    z-index added so these always render ABOVE the hero
+    image, regardless of the image's own animation-driven
+    stacking context.
 ==========================================================*/
 
 .hero-right::before{
@@ -268,6 +271,8 @@
     box-shadow:var(--shadow-medium);
 
     font-weight:600;
+
+    z-index:5;
 
     animation:floatCard1 5s ease-in-out infinite;
 
@@ -292,6 +297,8 @@
     box-shadow:var(--shadow-medium);
 
     font-weight:600;
+
+    z-index:5;
 
     animation:floatCard2 6s ease-in-out infinite;
 

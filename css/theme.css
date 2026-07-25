@@ -1,0 +1,101 @@
+/*==========================================================
+                DARK MODE
+    Overrides the design tokens from variables.css when
+    <html data-theme="dark"> is set. Because nearly every
+    component already reads colors via var(--off-white),
+    var(--white), var(--text-color) etc., this cascades
+    through cards, sections, and text automatically.
+==========================================================*/
+
+[data-theme="dark"]{
+
+    --off-white:#0F2318;
+    --white:#16301F;
+    --light-grey:#20402C;
+    --grey:#4A6B57;
+    --dark-grey:#B8CFC0;
+    --text-color:#EAF5EE;
+    --dark-green:#8BE06B;
+
+}
+
+[data-theme="dark"] body{
+
+    background:var(--off-white);
+
+}
+
+[data-theme="dark"] .service-card,
+[data-theme="dark"] .article-card,
+[data-theme="dark"] .about{
+
+    background:var(--white);
+
+}
+
+[data-theme="dark"] .stats div{
+
+    background:var(--light-grey);
+
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track{
+
+    background:#16301F;
+
+}
+
+
+/*==========================================================
+                THEME TOGGLE BUTTON
+==========================================================*/
+
+.theme-toggle-btn{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.15);
+
+    color:white;
+
+    font-size:1rem;
+
+    transition:var(--transition-normal);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.theme-toggle-btn:hover{
+
+    background:var(--electric-blue);
+
+    transform:rotate(12deg) scale(1.08);
+
+}
+
+.theme-toggle-btn .fa-sun{
+
+    display:none;
+
+}
+
+[data-theme="dark"] .theme-toggle-btn .fa-moon{
+
+    display:none;
+
+}
+
+[data-theme="dark"] .theme-toggle-btn .fa-sun{
+
+    display:block;
+
+}

@@ -89,8 +89,17 @@ async function loadFarms() {
   document.getElementById("cancel-add-farm").addEventListener("click", () => modal.classList.remove("active"));
 
   // ---- Add farm ----
+  let isSubmittingFarm = false;
+
   document.getElementById("add-farm-form").addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    if (isSubmittingFarm) return;
+    isSubmittingFarm = true;
+
+    const submitBtn = e.target.querySelector("button[type='submit']");
+    if (submitBtn) submitBtn.disabled = true;
+
     const errorBox = document.getElementById("farm-form-error");
     errorBox.textContent = "";
 
@@ -106,6 +115,9 @@ async function loadFarms() {
       size_acres,
       soil_type
     });
+
+    isSubmittingFarm = false;
+    if (submitBtn) submitBtn.disabled = false;
 
     if (error) {
       errorBox.textContent = error.message;

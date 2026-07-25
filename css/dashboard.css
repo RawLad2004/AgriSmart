@@ -56,6 +56,37 @@
 
 }
 
+.sidebar .as-logo{
+
+    width:44px;
+
+    height:44px;
+
+    border-radius:50%;
+
+    background-color:#ffffff;
+
+    background-image:url('../images/logo-icon.png');
+
+    background-size:75%;
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.2);
+
+    flex-shrink:0;
+
+}
+
+.sidebar .letter-a,
+.sidebar .letter-s{
+
+    display:none;
+
+}
+
 .sidebar .logo h2{
 
     color:white;

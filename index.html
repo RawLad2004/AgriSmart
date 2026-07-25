@@ -28,6 +28,16 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!--=====================================
+                FAVICON
+    ======================================-->
+
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+
+    <script src="js/theme.js"></script>
+
+    <!--=====================================
                     CSS
     ======================================-->
 
@@ -36,6 +46,7 @@
     <link rel="stylesheet" href="css/hero.css">
     <link rel="stylesheet" href="css/cards.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/responsive.css">
 
@@ -86,6 +97,11 @@
 
 <button class="search-btn">
 <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+
+<button class="theme-toggle-btn" id="theme-toggle">
+<i class="fa-solid fa-moon"></i>
+<i class="fa-solid fa-sun"></i>
 </button>
 
 <button class="login-btn" onclick="window.location.href='auth/login.html'">
@@ -152,6 +168,30 @@ Learn More
 </div>
 
 <div class="hero-right">
+
+<div class="floating-card fc-weather">
+    <div class="fc-icon"><i class="fa-solid fa-cloud-sun-rain"></i></div>
+    <div class="fc-text">
+        <span class="fc-label">Live Weather</span>
+        <span class="fc-sub">Rainfall & forecast alerts</span>
+    </div>
+</div>
+
+<div class="floating-card fc-crop">
+    <div class="fc-icon"><i class="fa-solid fa-seedling"></i></div>
+    <div class="fc-text">
+        <span class="fc-label">Crop Health</span>
+        <span class="fc-sub">Planting to harvest</span>
+    </div>
+</div>
+
+<div class="floating-card fc-market">
+    <div class="fc-icon"><i class="fa-solid fa-chart-line"></i></div>
+    <div class="fc-text">
+        <span class="fc-label">Market Prices</span>
+        <span class="fc-sub">Live commodity rates</span>
+    </div>
+</div>
 
 <div class="hero-image">
 
