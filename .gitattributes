@@ -1,0 +1,14 @@
+# Normalize line endings so `git diff` / `git status` only ever
+# show real content changes — not line-ending noise.
+#
+# Without this, files checked out with CRLF (\r\n) endings on one
+# machine and LF (\n) on another look 100% "modified" to git even
+# when nothing in the actual code changed, which is what made this
+# repo's diffs unreadable and broke a `git am` patch apply.
+
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
