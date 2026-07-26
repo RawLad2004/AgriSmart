@@ -11,6 +11,7 @@ alter table public.profiles
 -- ---- Avatar storage bucket ----
 -- Public read (avatars are just profile photos), write restricted to the
 -- owning user's own folder (path convention: {user_id}/avatar.{ext}).
+
 insert into storage.buckets (id, name, public)
 values ('avatars', 'avatars', true)
 on conflict (id) do nothing;
