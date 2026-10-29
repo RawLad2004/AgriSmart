@@ -1,2 +1,21 @@
-# Local secrets — never commit
+# Local secrets - never commit
 js/config.js
+.env
+.env.*
+!.env.example
+supabase/.env
+supabase/.temp/
+
+# Dependencies and build output
+node_modules/
+dist/
+coverage/
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
