@@ -16,9 +16,9 @@ function renderArticles(list) {
 
   grid.innerHTML = list.map(a => `
     <div class="article-card">
-      ${a.cover_image_url ? `<img src="${a.cover_image_url}" alt="${a.title}">` : `<div style="height:240px;background:var(--primary-gradient);"></div>`}
-      <h3>${a.title}</h3>
-      <p>${a.excerpt || a.body.slice(0, 120) + "…"}</p>
+      ${a.cover_image_url ? `<img src="${escapeHtml(safeHttpUrl(a.cover_image_url))}" alt="${escapeHtml(a.title)}">` : `<div style="height:240px;background:var(--primary-gradient);"></div>`}
+      <h3>${escapeHtml(a.title)}</h3>
+      <p>${escapeHtml(a.excerpt || a.body.slice(0, 120) + "…")}</p>
       <a href="article.html?slug=${encodeURIComponent(a.slug)}">Read More →</a>
     </div>
   `).join("");
@@ -47,7 +47,7 @@ function applyFilters() {
   const grid = document.getElementById("article-grid");
 
   if (error) {
-    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#d32f2f;">Couldn't load articles: ${error.message}</p>`;
+    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#d32f2f;">Couldn't load articles: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -61,7 +61,7 @@ function applyFilters() {
   const categories = [...new Set(allArticles.map(a => a.category))];
   const catSelect = document.getElementById("category-filter");
   catSelect.innerHTML = `<option value="">All Categories</option>` +
-    categories.map(c => `<option value="${c}">${c}</option>`).join("");
+    categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
 
   renderArticles(allArticles);
 

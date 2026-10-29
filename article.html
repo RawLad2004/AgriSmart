@@ -142,6 +142,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/security.js"></script>
 <script src="js/supabase-client.js"></script>
 <script>
 (async () => {
@@ -169,11 +170,11 @@
   document.getElementById("page-title").textContent = article.title + " | AgriSmart";
 
   box.innerHTML = `
-    <span class="cat-badge">${article.category}</span>
-    <h1>${article.title}</h1>
+    <span class="cat-badge">${escapeHtml(article.category)}</span>
+    <h1>${escapeHtml(article.title)}</h1>
     <div class="meta">Published ${new Date(article.created_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}</div>
-    ${article.cover_image_url ? `<img class="cover" src="${article.cover_image_url}" alt="${article.title}">` : ""}
-    <div class="body-text">${article.body}</div>
+    ${article.cover_image_url ? `<img class="cover" src="${escapeHtml(safeHttpUrl(article.cover_image_url))}" alt="${escapeHtml(article.title)}">` : ""}
+    <div class="body-text">${escapeHtml(article.body)}</div>
     <a href="articles.html" class="back-link">← Back to all articles</a>
   `;
 })();

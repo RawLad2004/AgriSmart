@@ -67,7 +67,7 @@ async function loadFeedLogs() {
     .order("feeding_date", { ascending: false });
 
   if (error) {
-    box.innerHTML = `<p class="form-error">Couldn't load feed logs: ${error.message}</p>`;
+    box.innerHTML = `<p class="form-error">Couldn't load feed logs: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -99,12 +99,12 @@ async function loadFeedLogs() {
       <tbody>
         ${logs.map(l => `
           <tr>
-            <td>${l.feeding_date}</td>
-            <td>${l.feed_type}</td>
-            <td>${l.quantity} ${l.unit}</td>
+            <td>${escapeHtml(l.feeding_date)}</td>
+            <td>${escapeHtml(l.feed_type)}</td>
+            <td>${escapeHtml(l.quantity)} ${escapeHtml(l.unit)}</td>
             <td>${l.cost ? "KES " + Number(l.cost).toLocaleString() : "—"}</td>
             <td>
-              <button class="secondary-btn delete-feed-log-btn" data-id="${l.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn delete-feed-log-btn" data-id="${escapeHtml(l.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
@@ -137,7 +137,7 @@ async function loadVaccinations() {
     .order("date_administered", { ascending: false });
 
   if (error) {
-    box.innerHTML = `<p class="form-error">Couldn't load vaccinations: ${error.message}</p>`;
+    box.innerHTML = `<p class="form-error">Couldn't load vaccinations: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -166,12 +166,12 @@ async function loadVaccinations() {
           }
           return `
             <tr>
-              <td>${v.vaccine_name}</td>
-              <td>${v.date_administered}</td>
-              <td>${v.next_due_date || "—"}</td>
+              <td>${escapeHtml(v.vaccine_name)}</td>
+              <td>${escapeHtml(v.date_administered)}</td>
+              <td>${escapeHtml(v.next_due_date || "—")}</td>
               <td>${statusHtml}</td>
               <td>
-                <button class="secondary-btn delete-vaccination-btn" data-id="${v.id}" style="padding:8px 16px;font-size:.85rem;">
+                <button class="secondary-btn delete-vaccination-btn" data-id="${escapeHtml(v.id)}" style="padding:8px 16px;font-size:.85rem;">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
@@ -225,7 +225,7 @@ async function loadHealthRecords() {
     .order("date_recorded", { ascending: false });
 
   if (error) {
-    box.innerHTML = `<p class="form-error">Couldn't load health records: ${error.message}</p>`;
+    box.innerHTML = `<p class="form-error">Couldn't load health records: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -251,12 +251,12 @@ async function loadHealthRecords() {
       <tbody>
         ${records.map(r => `
           <tr>
-            <td>${r.date_recorded}</td>
-            <td><span class="badge">${typeLabel[r.record_type] || r.record_type}</span></td>
-            <td>${r.description}</td>
-            <td>${r.follow_up_date || "—"}</td>
+            <td>${escapeHtml(r.date_recorded)}</td>
+            <td><span class="badge">${escapeHtml(typeLabel[r.record_type] || r.record_type)}</span></td>
+            <td>${escapeHtml(r.description)}</td>
+            <td>${escapeHtml(r.follow_up_date || "—")}</td>
             <td>
-              <button class="secondary-btn delete-health-record-btn" data-id="${r.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn delete-health-record-btn" data-id="${escapeHtml(r.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
@@ -289,7 +289,7 @@ async function loadGrowthRecords() {
     .order("date_recorded", { ascending: false });
 
   if (error) {
-    box.innerHTML = `<p class="form-error">Couldn't load growth records: ${error.message}</p>`;
+    box.innerHTML = `<p class="form-error">Couldn't load growth records: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -310,11 +310,11 @@ async function loadGrowthRecords() {
       <tbody>
         ${records.map(r => `
           <tr>
-            <td>${r.date_recorded}</td>
-            <td>${r.weight_kg} kg</td>
-            <td>${r.notes || "—"}</td>
+            <td>${escapeHtml(r.date_recorded)}</td>
+            <td>${escapeHtml(r.weight_kg)} kg</td>
+            <td>${escapeHtml(r.notes || "—")}</td>
             <td>
-              <button class="secondary-btn delete-growth-record-btn" data-id="${r.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn delete-growth-record-btn" data-id="${escapeHtml(r.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>

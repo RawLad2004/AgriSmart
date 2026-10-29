@@ -17,7 +17,7 @@ async function loadFarmsForDropdown() {
 
   const select = document.getElementById("ent_farm");
   select.innerHTML = `<option value="">Select a farm…</option>` +
-    userFarms.map(f => `<option value="${f.id}">${f.name}</option>`).join("");
+    userFarms.map(f => `<option value="${escapeHtml(f.id)}">${escapeHtml(f.name)}</option>`).join("");
 }
 
 async function loadEnterprises() {
@@ -43,7 +43,7 @@ async function loadEnterprises() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    listBox.innerHTML = `<p class="form-error">Couldn't load enterprises: ${error.message}</p>`;
+    listBox.innerHTML = `<p class="form-error">Couldn't load enterprises: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -66,13 +66,13 @@ async function loadEnterprises() {
       <tbody>
         ${enterprises.map(e => `
           <tr>
-            <td>${e.name}</td>
-            <td>${farmNameById[e.farm_id] || "—"}</td>
+            <td>${escapeHtml(e.name)}</td>
+            <td>${escapeHtml(farmNameById[e.farm_id] || "—")}</td>
             <td>
-              <button class="secondary-btn manage-plots-btn" data-id="${e.id}" data-name="${e.name}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn manage-plots-btn" data-id="${escapeHtml(e.id)}" data-name="${escapeHtml(e.name)}" style="padding:8px 16px;font-size:.85rem;">
                 Manage Plots
               </button>
-              <button class="secondary-btn delete-enterprise-btn" data-id="${e.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn delete-enterprise-btn" data-id="${escapeHtml(e.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
@@ -118,7 +118,7 @@ async function loadPlots() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    listBox.innerHTML = `<p class="form-error">Couldn't load plots: ${error.message}</p>`;
+    listBox.innerHTML = `<p class="form-error">Couldn't load plots: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -141,12 +141,12 @@ async function loadPlots() {
       <tbody>
         ${plots.map(p => `
           <tr>
-            <td>${p.crop_name}</td>
-            <td>${p.planted_date || "—"}</td>
-            <td>${p.expected_harvest || "—"}</td>
-            <td><span class="badge" style="background:${statusColor[p.status]};color:white;">${p.status}</span></td>
+            <td>${escapeHtml(p.crop_name)}</td>
+            <td>${escapeHtml(p.planted_date || "—")}</td>
+            <td>${escapeHtml(p.expected_harvest || "—")}</td>
+            <td><span class="badge" style="background:${statusColor[p.status]};color:white;">${escapeHtml(p.status)}</span></td>
             <td>
-              <button class="secondary-btn delete-plot-btn" data-id="${p.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn delete-plot-btn" data-id="${escapeHtml(p.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>

@@ -23,7 +23,7 @@ async function loadMyArticles() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    listBox.innerHTML = `<p class="form-error">Couldn't load articles: ${error.message}</p>`;
+    listBox.innerHTML = `<p class="form-error">Couldn't load articles: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -44,15 +44,15 @@ async function loadMyArticles() {
       <tbody>
         ${articles.map(a => `
           <tr>
-            <td>${a.title}</td>
-            <td>${a.category}</td>
+            <td>${escapeHtml(a.title)}</td>
+            <td>${escapeHtml(a.category)}</td>
             <td><span class="badge" style="background:${a.published ? 'var(--light-green)' : 'var(--grey)'};color:${a.published ? 'var(--dark-green)' : 'white'};">${a.published ? 'Published' : 'Draft'}</span></td>
             <td>${new Date(a.created_at).toLocaleDateString()}</td>
             <td>
-              <button class="secondary-btn edit-article-btn" data-id="${a.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn edit-article-btn" data-id="${escapeHtml(a.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-pen"></i>
               </button>
-              <button class="secondary-btn delete-article-btn" data-id="${a.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn delete-article-btn" data-id="${escapeHtml(a.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>

@@ -108,7 +108,10 @@ function summarizeToDaily(list) {
 }
 
 function weatherIconUrl(icon) {
-  return `https://openweathermap.org/img/wn/${icon}@2x.png`;
+  // Icon codes look like "10d" / "01n". Anything else (e.g. a tampered cache
+  // entry) falls back to a neutral default so it can never inject a URL.
+  const safeIcon = /^[0-9]{2}[dn]$/.test(String(icon)) ? icon : "03d";
+  return `https://openweathermap.org/img/wn/${safeIcon}@2x.png`;
 }
 
 function formatDayLabel(dateStr) {

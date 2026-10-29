@@ -20,8 +20,9 @@
   document.getElementById("user-name").textContent = displayName;
 
   const avatarEl = document.getElementById("user-avatar");
-  if (profile?.avatar_url) {
-    avatarEl.style.backgroundImage = `url("${profile.avatar_url}")`;
+  const avatarCss = safeCssUrl(profile?.avatar_url);
+  if (avatarCss) {
+    avatarEl.style.backgroundImage = avatarCss;
     avatarEl.style.backgroundSize = "cover";
     avatarEl.style.backgroundPosition = "center";
     avatarEl.textContent = "";
@@ -47,7 +48,7 @@
   const recentFarmsBox = document.getElementById("recent-farms");
 
   if (farmsError) {
-    recentFarmsBox.innerHTML = `<p class="form-error">Couldn't load farms: ${farmsError.message}</p>`;
+    recentFarmsBox.innerHTML = `<p class="form-error">Couldn't load farms: ${escapeHtml(farmsError.message)}</p>`;
   } else if (!farms || farms.length === 0) {
     recentFarmsBox.innerHTML = `
       <div class="empty-state">
@@ -64,9 +65,9 @@
         <tbody>
           ${farms.slice(0, 5).map(f => `
             <tr>
-              <td>${f.name}</td>
-              <td>${f.county || "—"}</td>
-              <td>${f.size_acres ? f.size_acres + " acres" : "—"}</td>
+              <td>${escapeHtml(f.name)}</td>
+              <td>${escapeHtml(f.county || "—")}</td>
+              <td>${f.size_acres ? escapeHtml(f.size_acres) + " acres" : "—"}</td>
             </tr>
           `).join("")}
         </tbody>

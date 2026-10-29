@@ -47,7 +47,7 @@ async function loadPrices() {
     .limit(50);
 
   if (error) {
-    listBox.innerHTML = `<p class="form-error">Couldn't load prices: ${error.message}</p>`;
+    listBox.innerHTML = `<p class="form-error">Couldn't load prices: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -68,13 +68,13 @@ async function loadPrices() {
       <tbody>
         ${prices.map(p => `
           <tr>
-            <td>${p.commodity}</td>
-            <td>${p.county}</td>
-            <td><strong>KES ${Number(p.price).toLocaleString()}</strong> / ${p.unit}</td>
-            <td>${p.price_date}</td>
+            <td>${escapeHtml(p.commodity)}</td>
+            <td>${escapeHtml(p.county)}</td>
+            <td><strong>KES ${Number(p.price).toLocaleString()}</strong> / ${escapeHtml(p.unit)}</td>
+            <td>${escapeHtml(p.price_date)}</td>
             <td>
               ${p.submitted_by === currentUserId ? `
-                <button class="secondary-btn delete-price-btn" data-id="${p.id}" style="padding:8px 16px;font-size:.85rem;">
+                <button class="secondary-btn delete-price-btn" data-id="${escapeHtml(p.id)}" style="padding:8px 16px;font-size:.85rem;">
                   <i class="fa-solid fa-trash"></i>
                 </button>` : ""}
             </td>
@@ -105,7 +105,7 @@ async function loadListings() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    listBox.innerHTML = `<p class="form-error">Couldn't load listings: ${error.message}</p>`;
+    listBox.innerHTML = `<p class="form-error">Couldn't load listings: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -123,9 +123,9 @@ async function loadListings() {
     listBox.innerHTML = searchTerm ? `
       <div class="empty-state">
         <i class="fa-solid fa-store"></i>
-        <p>No listings match "${searchTerm}" yet.</p>
+        <p>No listings match "${escapeHtml(searchTerm)}" yet.</p>
         <button class="primary-btn" id="want-ad-from-empty" style="display:inline-block;margin-top:20px;">
-          <i class="fa-solid fa-plus"></i> Post a want-ad for "${searchTerm}"
+          <i class="fa-solid fa-plus"></i> Post a want-ad for "${escapeHtml(searchTerm)}"
         </button>
       </div>` : `
       <div class="empty-state">
@@ -148,15 +148,15 @@ async function loadListings() {
       ${listings.map(l => `
         <div class="service-card" style="text-align:left;cursor:default;">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-            <h3>${l.commodity}</h3>
-            <span class="badge" style="background:${statusColor[l.status]};color:white;">${l.status}</span>
+            <h3>${escapeHtml(l.commodity)}</h3>
+            <span class="badge" style="background:${statusColor[l.status]};color:white;">${escapeHtml(l.status)}</span>
           </div>
-          <p style="margin:12px 0;"><strong>${l.quantity} ${l.unit}</strong> available</p>
-          <p style="margin-bottom:12px;color:var(--dark-green);font-weight:700;font-size:1.2rem;">KES ${Number(l.price).toLocaleString()} / ${l.unit}</p>
-          <p style="font-size:.9rem;"><i class="fa-solid fa-location-dot"></i> ${l.county}</p>
-          ${l.description ? `<p style="margin-top:10px;font-size:.9rem;">${l.description}</p>` : ""}
+          <p style="margin:12px 0;"><strong>${escapeHtml(l.quantity)} ${escapeHtml(l.unit)}</strong> available</p>
+          <p style="margin-bottom:12px;color:var(--dark-green);font-weight:700;font-size:1.2rem;">KES ${Number(l.price).toLocaleString()} / ${escapeHtml(l.unit)}</p>
+          <p style="font-size:.9rem;"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(l.county)}</p>
+          ${l.description ? `<p style="margin-top:10px;font-size:.9rem;">${escapeHtml(l.description)}</p>` : ""}
           ${l.seller_id === currentUserId ? `
-            <button class="secondary-btn delete-listing-btn" data-id="${l.id}" style="margin-top:15px;padding:8px 16px;font-size:.85rem;">
+            <button class="secondary-btn delete-listing-btn" data-id="${escapeHtml(l.id)}" style="margin-top:15px;padding:8px 16px;font-size:.85rem;">
               <i class="fa-solid fa-trash"></i> Remove Listing
             </button>` : ""}
         </div>

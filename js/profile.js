@@ -5,8 +5,9 @@
 let currentUserId = null;
 
 function setAvatarPreview(el, avatarUrl, fallbackLetter) {
-  if (avatarUrl) {
-    el.style.backgroundImage = `url("${avatarUrl}")`;
+  const avatarCss = safeCssUrl(avatarUrl);
+  if (avatarCss) {
+    el.style.backgroundImage = avatarCss;
     el.style.backgroundSize = "cover";
     el.style.backgroundPosition = "center";
     el.textContent = "";

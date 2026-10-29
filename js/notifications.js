@@ -66,11 +66,11 @@ async function refreshNotifications() {
   };
 
   listBox.innerHTML = list.map(n => `
-    <div class="notif-item ${n.read ? "" : "unread"}" data-id="${n.id}">
+    <div class="notif-item ${n.read ? "" : "unread"}" data-id="${escapeHtml(n.id)}">
       <i class="fa-solid ${iconByType[n.type] || iconByType.general}"></i>
       <div>
-        <div class="notif-title">${n.title}</div>
-        ${n.body ? `<div class="notif-body">${n.body}</div>` : ""}
+        <div class="notif-title">${escapeHtml(n.title)}</div>
+        ${n.body ? `<div class="notif-body">${escapeHtml(n.body)}</div>` : ""}
         <div class="notif-time">${timeAgo(n.created_at)}</div>
       </div>
     </div>

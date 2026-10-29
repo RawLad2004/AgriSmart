@@ -21,7 +21,7 @@ async function loadFarmsForDropdown() {
 
   const select = document.getElementById("ent_farm");
   select.innerHTML = `<option value="">Select a farm…</option>` +
-    userFarms.map(f => `<option value="${f.id}">${f.name}</option>`).join("");
+    userFarms.map(f => `<option value="${escapeHtml(f.id)}">${escapeHtml(f.name)}</option>`).join("");
 }
 
 async function loadEnterprises() {
@@ -47,7 +47,7 @@ async function loadEnterprises() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    listBox.innerHTML = `<p class="form-error">Couldn't load enterprises: ${error.message}</p>`;
+    listBox.innerHTML = `<p class="form-error">Couldn't load enterprises: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -70,14 +70,14 @@ async function loadEnterprises() {
       <tbody>
         ${enterprises.map(e => `
           <tr>
-            <td>${e.name}</td>
-            <td><span class="badge">${e.type}</span></td>
-            <td>${farmNameById[e.farm_id] || "—"}</td>
+            <td>${escapeHtml(e.name)}</td>
+            <td><span class="badge">${escapeHtml(e.type)}</span></td>
+            <td>${escapeHtml(farmNameById[e.farm_id] || "—")}</td>
             <td>
-              <button class="secondary-btn manage-animals-btn" data-id="${e.id}" data-name="${e.name}" data-type="${e.type}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn manage-animals-btn" data-id="${escapeHtml(e.id)}" data-name="${escapeHtml(e.name)}" data-type="${escapeHtml(e.type)}" style="padding:8px 16px;font-size:.85rem;">
                 Manage Animals
               </button>
-              <button class="secondary-btn delete-enterprise-btn" data-id="${e.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn delete-enterprise-btn" data-id="${escapeHtml(e.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
@@ -126,7 +126,7 @@ async function loadAnimals() {
   currentAnimalsCache = animals || [];
 
   if (error) {
-    listBox.innerHTML = `<p class="form-error">Couldn't load animals: ${error.message}</p>`;
+    listBox.innerHTML = `<p class="form-error">Couldn't load animals: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -149,16 +149,16 @@ async function loadAnimals() {
       <tbody>
         ${animals.map(a => `
           <tr>
-            <td>${a.species}</td>
-            <td>${a.breed || "—"}</td>
-            <td>${a.tag_id || "—"}</td>
-            <td>${a.dob || "—"}</td>
-            <td><span class="badge" style="background:${statusColor[a.status]};color:white;">${a.status}</span></td>
+            <td>${escapeHtml(a.species)}</td>
+            <td>${escapeHtml(a.breed || "—")}</td>
+            <td>${escapeHtml(a.tag_id || "—")}</td>
+            <td>${escapeHtml(a.dob || "—")}</td>
+            <td><span class="badge" style="background:${statusColor[a.status]};color:white;">${escapeHtml(a.status)}</span></td>
             <td>
-              <button class="secondary-btn manage-records-btn" data-id="${a.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn manage-records-btn" data-id="${escapeHtml(a.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-notes-medical"></i> Records
               </button>
-              <button class="secondary-btn delete-animal-btn" data-id="${a.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn delete-animal-btn" data-id="${escapeHtml(a.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>

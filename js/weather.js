@@ -12,7 +12,7 @@ function renderWeather(payload, farmName) {
   const rainBanner = c.rain_expected ? `
     <div class="alert-banner">
       <i class="fa-solid fa-triangle-exclamation"></i>
-      Rain is expected right now near ${farmName}. Plan field work and spraying accordingly.
+      Rain is expected right now near ${escapeHtml(farmName)}. Plan field work and spraying accordingly.
     </div>` : "";
 
   box.innerHTML = `
@@ -20,23 +20,23 @@ function renderWeather(payload, farmName) {
 
     <div class="weather-hero">
       <div>
-        <div class="wh-location">${farmName} — ${payload.location_name}</div>
-        <div class="wh-temp">${c.temp}°C</div>
-        <div class="wh-desc">${c.description}</div>
+        <div class="wh-location">${escapeHtml(farmName)} — ${escapeHtml(payload.location_name)}</div>
+        <div class="wh-temp">${escapeHtml(c.temp)}°C</div>
+        <div class="wh-desc">${escapeHtml(c.description)}</div>
       </div>
-      <img class="wh-icon" src="${weatherIconUrl(c.icon)}" alt="${c.description}">
+      <img class="wh-icon" src="${escapeHtml(weatherIconUrl(c.icon))}" alt="${escapeHtml(c.description)}">
       <div class="weather-meta-grid">
         <div>
           <div class="meta-label">Feels Like</div>
-          <div class="meta-value">${c.feels_like}°C</div>
+          <div class="meta-value">${escapeHtml(c.feels_like)}°C</div>
         </div>
         <div>
           <div class="meta-label">Humidity</div>
-          <div class="meta-value">${c.humidity}%</div>
+          <div class="meta-value">${escapeHtml(c.humidity)}%</div>
         </div>
         <div>
           <div class="meta-label">Wind</div>
-          <div class="meta-value">${c.wind_speed} m/s</div>
+          <div class="meta-value">${escapeHtml(c.wind_speed)} m/s</div>
         </div>
       </div>
     </div>
@@ -49,8 +49,8 @@ function renderWeather(payload, farmName) {
         ${payload.daily_forecast.map(d => `
           <div class="forecast-day">
             <div class="fd-label">${formatDayLabel(d.date)}</div>
-            <img src="${weatherIconUrl(d.icon)}" alt="">
-            <div class="fd-temps"><strong>${d.max}°</strong> / ${d.min}°</div>
+            <img src="${escapeHtml(weatherIconUrl(d.icon))}" alt="">
+            <div class="fd-temps"><strong>${escapeHtml(d.max)}°</strong> / ${escapeHtml(d.min)}°</div>
             ${d.rain ? '<div style="margin-top:8px;color:var(--electric-blue);font-size:.8rem;"><i class="fa-solid fa-droplet"></i> Rain</div>' : ""}
           </div>
         `).join("")}
@@ -107,10 +107,10 @@ async function renderEquipmentSuggestions(payload) {
         <a class="equipment-card" href="market.html?tab=marketplace&search=${encodeURIComponent(s.item)}${s.hasMatch ? "" : "&prefill=1"}"
            style="text-decoration:none;color:inherit;display:block;">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-            <i class="${s.icon}" style="font-size:1.3rem;color:var(--primary-green);"></i>
-            <strong>${s.item}</strong>
+            <i class="${escapeHtml(s.icon)}" style="font-size:1.3rem;color:var(--primary-green);"></i>
+            <strong>${escapeHtml(s.item)}</strong>
           </div>
-          <p style="font-size:.9rem;color:var(--dark-grey);margin-bottom:12px;">${s.reason}</p>
+          <p style="font-size:.9rem;color:var(--dark-grey);margin-bottom:12px;">${escapeHtml(s.reason)}</p>
           <span class="badge" style="background:${s.hasMatch ? "var(--light-green)" : "var(--electric-blue)"};color:white;">
             ${s.hasMatch ? "Available in Marketplace" : "Post a want-ad"}
           </span>
@@ -121,13 +121,13 @@ async function renderEquipmentSuggestions(payload) {
 
 async function loadWeatherForFarm(farm) {
   const box = document.getElementById("weather-content");
-  box.innerHTML = `<p style="color:var(--dark-grey);">Fetching weather for ${farm.name}…</p>`;
+  box.innerHTML = `<p style="color:var(--dark-grey);">Fetching weather for ${escapeHtml(farm.name)}…</p>`;
 
   if (!farm.county) {
     box.innerHTML = `
       <div class="empty-state">
         <i class="fa-solid fa-location-dot"></i>
-        <p>${farm.name} doesn't have a county set — add one on the Farms page so we can look up its weather.</p>
+        <p>${escapeHtml(farm.name)} doesn't have a county set — add one on the Farms page so we can look up its weather.</p>
       </div>`;
     return;
   }
@@ -145,7 +145,7 @@ async function loadWeatherForFarm(farm) {
       );
     }
   } catch (err) {
-    box.innerHTML = `<p class="form-error">Couldn't fetch weather: ${err.message}</p>`;
+    box.innerHTML = `<p class="form-error">Couldn't fetch weather: ${escapeHtml(err.message)}</p>`;
   }
 }
 
@@ -187,7 +187,7 @@ async function loadWeatherForFarm(farm) {
       </div>`;
   } else {
     select.innerHTML = `<option value="">Select a farm…</option>` +
-      userFarms.map(f => `<option value="${f.id}">${f.name}</option>`).join("");
+      userFarms.map(f => `<option value="${escapeHtml(f.id)}">${escapeHtml(f.name)}</option>`).join("");
 
     select.addEventListener("change", () => {
       const farm = userFarms.find(f => f.id === select.value);

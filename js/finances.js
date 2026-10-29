@@ -17,7 +17,7 @@ async function loadFinancesForFarm(farmId) {
     .order("txn_date", { ascending: false });
 
   if (error) {
-    box.innerHTML = `<p class="form-error">Couldn't load transactions: ${error.message}</p>`;
+    box.innerHTML = `<p class="form-error">Couldn't load transactions: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -64,13 +64,13 @@ async function loadFinancesForFarm(farmId) {
         <tbody>
           ${txns.map(t => `
             <tr>
-              <td>${t.txn_date}</td>
-              <td><span class="badge" style="background:${t.type === 'income' ? 'var(--light-green)' : '#f5c6c6'};color:${t.type === 'income' ? 'var(--dark-green)' : '#8a1c1c'};">${t.type}</span></td>
-              <td>${t.category}</td>
+              <td>${escapeHtml(t.txn_date)}</td>
+              <td><span class="badge" style="background:${t.type === 'income' ? 'var(--light-green)' : '#f5c6c6'};color:${t.type === 'income' ? 'var(--dark-green)' : '#8a1c1c'};">${escapeHtml(t.type)}</span></td>
+              <td>${escapeHtml(t.category)}</td>
               <td>${t.type === 'income' ? '+' : '-'} KES ${Number(t.amount).toLocaleString()}</td>
-              <td>${t.note || "—"}</td>
+              <td>${escapeHtml(t.note || "—")}</td>
               <td>
-                <button class="secondary-btn delete-txn-btn" data-id="${t.id}" style="padding:8px 16px;font-size:.85rem;">
+                <button class="secondary-btn delete-txn-btn" data-id="${escapeHtml(t.id)}" style="padding:8px 16px;font-size:.85rem;">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
@@ -130,7 +130,7 @@ async function loadFinancesForFarm(farmId) {
       </div>`;
   } else {
     select.innerHTML = `<option value="">Select a farm…</option>` +
-      userFarms.map(f => `<option value="${f.id}">${f.name}</option>`).join("");
+      userFarms.map(f => `<option value="${escapeHtml(f.id)}">${escapeHtml(f.name)}</option>`).join("");
 
     select.addEventListener("change", () => {
       selectedFarmId = select.value || null;

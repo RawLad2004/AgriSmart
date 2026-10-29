@@ -20,9 +20,9 @@
 
     container.innerHTML = articles.map(a => `
       <div class="article-card">
-        ${a.cover_image_url ? `<img src="${a.cover_image_url}" alt="${a.title}">` : `<div style="height:240px;background:var(--primary-gradient);"></div>`}
-        <h3>${a.title}</h3>
-        <p>${a.excerpt || a.body.slice(0, 110) + "…"}</p>
+        ${a.cover_image_url ? `<img src="${escapeHtml(safeHttpUrl(a.cover_image_url))}" alt="${escapeHtml(a.title)}">` : `<div style="height:240px;background:var(--primary-gradient);"></div>`}
+        <h3>${escapeHtml(a.title)}</h3>
+        <p>${escapeHtml(a.excerpt || a.body.slice(0, 110) + "…")}</p>
         <a href="article.html?slug=${encodeURIComponent(a.slug)}">Read More →</a>
       </div>
     `).join("");

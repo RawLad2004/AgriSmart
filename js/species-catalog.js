@@ -54,16 +54,16 @@ function openSpeciesPicker(enterpriseType, onSelect) {
 
   listBox.innerHTML = entries.map(entry => `
     <div style="margin-bottom:18px;">
-      <div style="font-weight:600;margin-bottom:8px;">${entry.species}</div>
+      <div style="font-weight:600;margin-bottom:8px;">${escapeHtml(entry.species)}</div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;">
-        <button type="button" class="secondary-btn species-pick-btn" data-species="${entry.species}" data-breed=""
+        <button type="button" class="secondary-btn species-pick-btn" data-species="${escapeHtml(entry.species)}" data-breed=""
           style="padding:8px 14px;font-size:.85rem;">
-          ${entry.species} (no specific breed)
+          ${escapeHtml(entry.species)} (no specific breed)
         </button>
         ${entry.breeds.map(b => `
-          <button type="button" class="secondary-btn species-pick-btn" data-species="${entry.species}" data-breed="${b}"
+          <button type="button" class="secondary-btn species-pick-btn" data-species="${escapeHtml(entry.species)}" data-breed="${b}"
             style="padding:8px 14px;font-size:.85rem;">
-            ${b}
+            ${escapeHtml(b)}
           </button>
         `).join("")}
       </div>

@@ -14,7 +14,7 @@ async function loadFarms() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    listBox.innerHTML = `<p class="form-error">Couldn't load farms: ${error.message}</p>`;
+    listBox.innerHTML = `<p class="form-error">Couldn't load farms: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
@@ -35,12 +35,12 @@ async function loadFarms() {
       <tbody>
         ${farms.map(f => `
           <tr>
-            <td>${f.name}</td>
-            <td>${f.county || "—"}</td>
-            <td>${f.size_acres ? f.size_acres + " acres" : "—"}</td>
-            <td>${f.soil_type ? `<span class="badge">${f.soil_type}</span>` : "—"}</td>
+            <td>${escapeHtml(f.name)}</td>
+            <td>${escapeHtml(f.county || "—")}</td>
+            <td>${f.size_acres ? escapeHtml(f.size_acres) + " acres" : "—"}</td>
+            <td>${f.soil_type ? `<span class="badge">${escapeHtml(f.soil_type)}</span>` : "—"}</td>
             <td>
-              <button class="secondary-btn delete-farm-btn" data-id="${f.id}" style="padding:8px 16px;font-size:.85rem;">
+              <button class="secondary-btn delete-farm-btn" data-id="${escapeHtml(f.id)}" style="padding:8px 16px;font-size:.85rem;">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
