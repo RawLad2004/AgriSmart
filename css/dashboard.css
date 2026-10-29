@@ -156,6 +156,8 @@
 
     min-height:100vh;
 
+    min-width:0;
+
 }
 
 
@@ -355,7 +357,19 @@ table.data-table{
 
     width:100%;
 
+    min-width:640px;
+
     border-collapse:collapse;
+
+}
+
+.table-scroll-wrap{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    -webkit-overflow-scrolling:touch;
 
 }
 
@@ -1172,6 +1186,52 @@ table.data-table{
                     RESPONSIVE
 ==========================================================*/
 
+.sidebar-toggle-btn{
+
+    display:none;
+
+    background:none;
+
+    border:none;
+
+    font-size:1.4rem;
+
+    color:var(--text-color);
+
+    cursor:pointer;
+
+    padding:8px;
+
+    margin-right:12px;
+
+}
+
+.sidebar-overlay{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    z-index:199;
+
+    opacity:0;
+
+    transition:opacity .25s ease;
+
+}
+
+.sidebar-overlay.visible{
+
+    display:block;
+
+    opacity:1;
+
+}
+
 @media(max-width:900px){
 
     .app-shell{
@@ -1180,9 +1240,41 @@ table.data-table{
 
     }
 
+    .sidebar-toggle-btn{
+
+        display:inline-flex;
+
+        align-items:center;
+
+    }
+
     .sidebar{
 
-        display:none;
+        position:fixed;
+
+        top:0;
+
+        left:0;
+
+        bottom:0;
+
+        width:min(280px,80vw);
+
+        transform:translateX(-100%);
+
+        transition:transform .25s ease;
+
+        z-index:200;
+
+        overflow-y:auto;
+
+    }
+
+    .sidebar.open{
+
+        transform:translateX(0);
+
+        box-shadow:4px 0 24px rgba(0,0,0,.3);
 
     }
 
