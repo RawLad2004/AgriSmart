@@ -238,6 +238,11 @@ async function loadPlots() {
     const expected_harvest = document.getElementById("plot_harvest").value || null;
     const status = document.getElementById("plot_status").value;
 
+    if (planted_date && expected_harvest && expected_harvest < planted_date) {
+      errorBox.textContent = "Expected harvest can't be before the planting date.";
+      return;
+    }
+
     const { error } = await sb.from("crop_plots").insert({
       enterprise_id: selectedEnterpriseId,
       crop_name,

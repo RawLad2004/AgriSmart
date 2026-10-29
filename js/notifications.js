@@ -117,7 +117,10 @@ async function pushNotificationOnce(userId, type, title, body) {
 
   if (existing) return;
 
-  await sb.from("notifications").insert({ user_id: userId, type, title, body });
+  const { error } = await sb.from("notifications").insert({ user_id: userId, type, title, body });
+  // 23505 = unique violation: the database's one-per-day rule already has this
+  // alert (e.g. two tabs raced), so there is nothing more to do.
+  if (error && error.code !== "23505") return;
 
   if (_notifUserId === userId) refreshNotifications();
 }

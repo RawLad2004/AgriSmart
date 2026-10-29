@@ -41,11 +41,16 @@ if (signupForm) {
     const password = document.getElementById("password").value;
     const county = document.getElementById("county").value.trim();
 
+    if (password.length < 8) {
+      errorBox.textContent = "Password must be at least 8 characters.";
+      return;
+    }
+
     const { data, error } = await sb.auth.signUp({
       email,
       password,
       options: {
-        data: { full_name: fullName }
+        data: { full_name: fullName, county }
       }
     });
 
@@ -54,12 +59,31 @@ if (signupForm) {
       return;
     }
 
-    // Fill in county now that the profile row exists (trigger creates it)
-    if (data.user) {
-      await sb.from("profiles").update({ county }).eq("id", data.user.id);
+    // Keep the county so it can be saved on first login even if the profile
+    // can't be updated yet (e.g. email confirmation is required first).
+    savePendingProfile({ county });
+
+    if (data.session) {
+      // Signed in immediately (email confirmation is off): save county now.
+      await applyPendingProfile(data.user.id);
+      window.location.href = "../dashboard/profile.html";
+      return;
     }
 
-    window.location.href = "../dashboard/profile.html";
+    // Email confirmation is on: there is no session yet, so tell the user.
+    signupForm.reset();
+    signupForm.style.display = "none";
+    const note = document.createElement("div");
+    note.className = "form-success";
+    note.style.cssText = "background:#e8f5e9;color:#1e7a3d;padding:14px 16px;border-radius:12px;margin:10px 0;";
+    note.textContent = "Account created! Check your email and click the confirmation link, then log in.";
+    errorBox.after(note);
+    const loginLink = document.createElement("a");
+    loginLink.href = "login.html";
+    loginLink.className = "primary-btn";
+    loginLink.style.cssText = "display:inline-block;margin-top:10px;";
+    loginLink.textContent = "Go to login";
+    note.after(loginLink);
   });
 }
 

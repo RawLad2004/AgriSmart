@@ -97,7 +97,21 @@ async function loadProfile() {
     const statusBox = document.getElementById("avatar-upload-status");
     statusBox.textContent = "Uploading…";
 
-    const ext = file.name.split(".").pop();
+    // Only real raster images, max 2 MB. The extension is derived from the
+    // validated MIME type - never from the user-supplied file name.
+    const ALLOWED_AVATAR_TYPES = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };
+    const MAX_AVATAR_BYTES = 2 * 1024 * 1024;
+    const ext = ALLOWED_AVATAR_TYPES[file.type];
+
+    if (!ext) {
+      statusBox.textContent = "Please choose a JPG, PNG or WebP image.";
+      return;
+    }
+    if (file.size > MAX_AVATAR_BYTES) {
+      statusBox.textContent = "That photo is too large. Please choose one under 2 MB.";
+      return;
+    }
+
     const path = `${currentUserId}/avatar.${ext}`;
 
     const { error: uploadError } = await sb.storage

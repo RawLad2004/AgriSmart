@@ -22,7 +22,33 @@ async function requireSession() {
     window.location.href = "../auth/login.html";
     return null;
   }
+  await applyPendingProfile(session.user.id);
   return session;
+}
+
+/*==========================================================
+    PENDING PROFILE DATA
+    Signup stores the chosen county locally. Once the user has
+    a real session (first login after email confirmation) it
+    is written to their profile, so weather works right away.
+==========================================================*/
+const PENDING_PROFILE_KEY = "agrova_pending_profile";
+
+function savePendingProfile(fields) {
+  try { localStorage.setItem(PENDING_PROFILE_KEY, JSON.stringify(fields)); } catch (e) { /* storage blocked */ }
+}
+
+async function applyPendingProfile(userId) {
+  let pending = null;
+  try { pending = JSON.parse(localStorage.getItem(PENDING_PROFILE_KEY) || "null"); } catch (e) { return; }
+  if (!pending || !pending.county) return;
+
+  const { data: profile } = await sb.from("profiles").select("county").eq("id", userId).maybeSingle();
+  if (profile && !profile.county) {
+    const { error } = await sb.from("profiles").update({ county: pending.county }).eq("id", userId);
+    if (error) return; // keep it and retry on the next page load
+  }
+  try { localStorage.removeItem(PENDING_PROFILE_KEY); } catch (e) { /* ignore */ }
 }
 
 /*==========================================================
