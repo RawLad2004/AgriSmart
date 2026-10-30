@@ -17,7 +17,10 @@ const appGlobals = {
   getWeatherForLocation: "readonly",
   weatherIconUrl: "readonly",
   formatDayLabel: "readonly",
-  getEquipmentSuggestions: "readonly"
+  getEquipmentSuggestions: "readonly",
+  initAnimalRecords: "readonly",
+  openAnimalRecordsModal: "readonly",
+  openSpeciesPicker: "readonly"
 };
 
 module.exports = [
@@ -30,7 +33,10 @@ module.exports = [
     },
     rules: {
       "no-undef": "error",
-      "no-unused-vars": ["warn", { args: "none" }],
+      // vars: "local" -> top-level functions are shared between <script> files, so only
+      // unused variables inside functions are reported. caughtErrors: "none" -> an
+      // intentionally ignored `catch (e)` is fine.
+      "no-unused-vars": ["warn", { vars: "local", args: "none", caughtErrors: "none" }],
       "no-eval": "error",
       "no-implied-eval": "error",
       "no-new-func": "error",
