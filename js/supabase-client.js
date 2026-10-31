@@ -19,7 +19,11 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 async function requireSession() {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) {
-    window.location.href = "../auth/login.html";
+    /* Remember where the user was going so login can send them back.
+       Only the current path/query/hash is stored — never a URL supplied
+       by the user — and auth.js re-validates it before redirecting. */
+    const next = window.location.pathname + window.location.search + window.location.hash;
+    window.location.href = `../auth/login.html?next=${encodeURIComponent(next)}`;
     return null;
   }
   await applyPendingProfile(session.user.id);

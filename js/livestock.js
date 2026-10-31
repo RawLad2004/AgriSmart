@@ -10,22 +10,52 @@ let selectedEnterpriseType = "livestock";
 
 const LIVESTOCK_TYPES = ["livestock", "dairy", "poultry", "aquaculture", "apiary"];
 
+/* Small DOM helpers: a missing element should never abort the whole page. */
+function byId(id) {
+  return document.getElementById(id);
+}
+
+function bindEvent(id, event, handler) {
+  const el = byId(id);
+  if (!el) {
+    console.warn(`[livestock] Missing #${id}; skipped ${event} binding.`);
+    return null;
+  }
+  el.addEventListener(event, handler);
+  return el;
+}
+
+
 async function loadFarmsForDropdown() {
-  const { data: farms } = await sb
+  const { data: farms, error } = await sb
     .from("farms")
     .select("id, name")
     .eq("owner_id", currentUserId)
     .order("name");
 
+  if (error) {
+    userFarms = [];
+    const listBox = byId("enterprises-list");
+    if (listBox) {
+      listBox.innerHTML = `<p class="form-error">Couldn't load farms: ${escapeHtml(error.message)}</p>`;
+    }
+    return false;
+  }
+
   userFarms = farms || [];
 
-  const select = document.getElementById("ent_farm");
-  select.innerHTML = `<option value="">Select a farm…</option>` +
-    userFarms.map(f => `<option value="${escapeHtml(f.id)}">${escapeHtml(f.name)}</option>`).join("");
+  const select = byId("ent_farm");
+  if (select) {
+    select.innerHTML = `<option value="">Select a farm…</option>` +
+      userFarms.map(f => `<option value="${escapeHtml(f.id)}">${escapeHtml(f.name)}</option>`).join("");
+  }
+
+  return true;
 }
 
 async function loadEnterprises() {
-  const listBox = document.getElementById("enterprises-list");
+  const listBox = byId("enterprises-list");
+  if (!listBox) return;
 
   if (userFarms.length === 0) {
     listBox.innerHTML = `
@@ -105,6 +135,8 @@ async function loadEnterprises() {
         alert("Couldn't delete: " + error.message);
       } else {
         if (selectedEnterpriseId === btn.dataset.id) {
+          selectedEnterpriseId = null;
+          currentAnimalsCache = [];
           document.getElementById("animals-panel").style.display = "none";
         }
         loadEnterprises();
@@ -114,7 +146,8 @@ async function loadEnterprises() {
 }
 
 async function loadAnimals() {
-  const listBox = document.getElementById("animals-list");
+  const listBox = byId("animals-list");
+  if (!listBox || !selectedEnterpriseId) return;
   listBox.innerHTML = `<p style="color:var(--dark-grey);">Loading…</p>`;
 
   const { data: animals, error } = await sb
@@ -170,7 +203,9 @@ async function loadAnimals() {
   document.querySelectorAll(".manage-records-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const animal = currentAnimalsCache.find(a => a.id === btn.dataset.id);
-      if (animal) openAnimalRecordsModal(animal);
+      if (animal && typeof openAnimalRecordsModal === "function") {
+        openAnimalRecordsModal(animal);
+      }
     });
   });
 
@@ -191,6 +226,13 @@ async function loadAnimals() {
 
   currentUserId = session.user.id;
 
+  // Bind logout before anything else: a later feature failure must not
+  // leave the user unable to sign out.
+  bindEvent("logout-btn", "click", (e) => {
+    e.preventDefault();
+    signOut();
+  });
+
   const { data: profile } = await sb
     .from("profiles")
     .select("full_name")
@@ -198,75 +240,114 @@ async function loadAnimals() {
     .single();
 
   const displayName = profile?.full_name || session.user.email;
-  document.getElementById("user-name").textContent = displayName;
-  document.getElementById("user-avatar").textContent = displayName.charAt(0).toUpperCase();
+  const userName = byId("user-name");
+  const userAvatar = byId("user-avatar");
+  if (userName) userName.textContent = displayName;
+  if (userAvatar) userAvatar.textContent = displayName.charAt(0).toUpperCase();
 
-  await initNotificationBell(currentUserId);
-  initAnimalRecords(currentUserId);
+  try {
+    await initNotificationBell(currentUserId);
+  } catch (err) {
+    console.error("[livestock] Notifications failed to initialise:", err);
+  }
 
-  await loadFarmsForDropdown();
-  await loadEnterprises();
+  if (typeof initAnimalRecords === "function") {
+    initAnimalRecords(currentUserId);
+  } else {
+    console.warn("[livestock] animal-records.js is not loaded; record tabs will be unavailable.");
+  }
+
+  const farmsLoaded = await loadFarmsForDropdown();
+  if (farmsLoaded) {
+    await loadEnterprises();
+  }
 
   // ---- Species picker ----
-  document.getElementById("open-species-picker").addEventListener("click", () => {
+  const speciesButton = bindEvent("open-species-picker", "click", () => {
+    if (typeof openSpeciesPicker !== "function") return;
     openSpeciesPicker(selectedEnterpriseType, ({ species, breed }) => {
-      document.getElementById("animal_species").value = species;
-      if (breed) document.getElementById("animal_breed").value = breed;
+      const speciesInput = byId("animal_species");
+      const breedInput = byId("animal_breed");
+      if (speciesInput) speciesInput.value = species;
+      if (breedInput && breed) breedInput.value = breed;
     });
+  });
+  if (speciesButton) speciesButton.setAttribute("aria-haspopup", "dialog");
+
+  bindEvent("close-species-picker", "click", () => {
+    byId("species-picker-modal")?.classList.remove("active");
   });
 
   // ---- Add enterprise modal ----
-  const entModal = document.getElementById("add-enterprise-modal");
-  document.getElementById("open-add-enterprise").addEventListener("click", () => entModal.classList.add("active"));
-  document.getElementById("cancel-add-enterprise").addEventListener("click", () => entModal.classList.remove("active"));
+  const entModal = byId("add-enterprise-modal");
 
-  document.getElementById("add-enterprise-form").addEventListener("submit", async (e) => {
+  bindEvent("open-add-enterprise", "click", () => {
+    entModal?.classList.add("active");
+  });
+  bindEvent("cancel-add-enterprise", "click", () => entModal?.classList.remove("active"));
+
+  bindEvent("add-enterprise-form", "submit", async (e) => {
     e.preventDefault();
-    const errorBox = document.getElementById("enterprise-form-error");
-    errorBox.textContent = "";
+    const errorBox = byId("enterprise-form-error");
+    if (errorBox) errorBox.textContent = "";
 
-    const farm_id = document.getElementById("ent_farm").value;
-    const name = document.getElementById("ent_name").value.trim();
-    const type = document.getElementById("ent_type").value;
+    const farm_id = byId("ent_farm")?.value || "";
+    const name = byId("ent_name")?.value.trim() || "";
+    const type = byId("ent_type")?.value || "livestock";
 
     if (!farm_id) {
-      errorBox.textContent = "Please select a farm.";
+      if (errorBox) errorBox.textContent = "Please select a farm.";
+      return;
+    }
+    if (!name) {
+      if (errorBox) errorBox.textContent = "Please enter an enterprise name.";
       return;
     }
 
     const { error } = await sb.from("enterprises").insert({ farm_id, name, type });
 
     if (error) {
-      errorBox.textContent = error.message;
+      if (errorBox) errorBox.textContent = error.message;
       return;
     }
 
-    entModal.classList.remove("active");
-    document.getElementById("add-enterprise-form").reset();
-    loadEnterprises();
+    entModal?.classList.remove("active");
+    byId("add-enterprise-form")?.reset();
+    await loadEnterprises();
   });
 
   // ---- Add animal modal ----
-  const animalModal = document.getElementById("add-animal-modal");
-  document.getElementById("open-add-animal").addEventListener("click", () => {
+  const animalModal = byId("add-animal-modal");
+
+  bindEvent("open-add-animal", "click", () => {
     if (!selectedEnterpriseId) {
       alert("Select an enterprise first by clicking \"Manage Animals\".");
       return;
     }
-    animalModal.classList.add("active");
+    animalModal?.classList.add("active");
   });
-  document.getElementById("cancel-add-animal").addEventListener("click", () => animalModal.classList.remove("active"));
+  bindEvent("cancel-add-animal", "click", () => animalModal?.classList.remove("active"));
 
-  document.getElementById("add-animal-form").addEventListener("submit", async (e) => {
+  bindEvent("add-animal-form", "submit", async (e) => {
     e.preventDefault();
-    const errorBox = document.getElementById("animal-form-error");
-    errorBox.textContent = "";
+    const errorBox = byId("animal-form-error");
+    if (errorBox) errorBox.textContent = "";
 
-    const species = document.getElementById("animal_species").value.trim();
-    const breed = document.getElementById("animal_breed").value.trim() || null;
-    const tag_id = document.getElementById("animal_tag").value.trim() || null;
-    const dob = document.getElementById("animal_dob").value || null;
-    const status = document.getElementById("animal_status").value;
+    if (!selectedEnterpriseId) {
+      if (errorBox) errorBox.textContent = "Select an enterprise first.";
+      return;
+    }
+
+    const species = byId("animal_species")?.value.trim() || "";
+    const breed = byId("animal_breed")?.value.trim() || null;
+    const tag_id = byId("animal_tag")?.value.trim() || null;
+    const dob = byId("animal_dob")?.value || null;
+    const status = byId("animal_status")?.value || "active";
+
+    if (!species) {
+      if (errorBox) errorBox.textContent = "Please choose or enter a species.";
+      return;
+    }
 
     const { error } = await sb.from("livestock_animals").insert({
       enterprise_id: selectedEnterpriseId,
@@ -278,19 +359,13 @@ async function loadAnimals() {
     });
 
     if (error) {
-      errorBox.textContent = error.message;
+      if (errorBox) errorBox.textContent = error.message;
       return;
     }
 
-    animalModal.classList.remove("active");
-    document.getElementById("add-animal-form").reset();
-    loadAnimals();
-  });
-
-  // ---- Logout ----
-  document.getElementById("logout-btn").addEventListener("click", (e) => {
-    e.preventDefault();
-    signOut();
+    animalModal?.classList.remove("active");
+    byId("add-animal-form")?.reset();
+    await loadAnimals();
   });
 
 })();

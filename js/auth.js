@@ -2,9 +2,56 @@
                     AUTH — LOGIN
 ==========================================================*/
 
+/*==========================================================
+        SAFE POST-LOGIN REDIRECT
+    requireSession() stores the requested dashboard page in
+    ?next=. Only same-origin dashboard HTML pages are allowed,
+    so a crafted link cannot turn login into an open redirect.
+==========================================================*/
+
+const DEFAULT_AFTER_LOGIN = "../dashboard/dashboard.html";
+
+function getSafeNextPath() {
+  const raw = new URLSearchParams(window.location.search).get("next");
+  if (!raw) return null;
+
+  // Reject schemes, protocol-relative URLs, backslashes and control chars.
+  if (/[\u0000-\u001f\u007f\\]/.test(raw)) return null;
+  if (raw.startsWith("//")) return null;
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(raw)) return null;
+
+  let url;
+  try {
+    url = new URL(raw, window.location.origin);
+  } catch (e) {
+    return null;
+  }
+
+  if (url.origin !== window.location.origin) return null;
+
+  // Restrict to real dashboard pages; query/hash are preserved.
+  if (!/(?:^|\/)dashboard\/[a-z0-9_-]+\.html$/i.test(url.pathname)) return null;
+
+  return url.pathname + url.search + url.hash;
+}
+
+function redirectAfterLogin() {
+  window.location.href = getSafeNextPath() || DEFAULT_AFTER_LOGIN;
+}
+
 const loginForm = document.getElementById("login-form");
 
 if (loginForm) {
+  // Already signed in? Skip the form and go to the intended page.
+  (async () => {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) redirectAfterLogin();
+    } catch (e) {
+      // Leave the form usable if the session check fails.
+    }
+  })();
+
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const errorBox = document.getElementById("auth-error");
@@ -20,7 +67,7 @@ if (loginForm) {
       return;
     }
 
-    window.location.href = "../dashboard/dashboard.html";
+    redirectAfterLogin();
   });
 }
 
