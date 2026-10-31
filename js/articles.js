@@ -3,6 +3,7 @@
 ==========================================================*/
 
 let currentUserId = null;
+let isAdmin = false;
 
 function slugify(title) {
   return title
@@ -87,6 +88,12 @@ async function openEditModal(articleId) {
     return;
   }
 
+  // Only admins may change a published article (enforced by the database too).
+  if (article.published && !isAdmin) {
+    alert("This article is already published. Ask an admin if it needs changes.");
+    return;
+  }
+
   document.getElementById("article-modal-title").textContent = "Edit Article";
   document.getElementById("article_id").value = article.id;
   document.getElementById("article_title").value = article.title;
@@ -94,7 +101,7 @@ async function openEditModal(articleId) {
   document.getElementById("article_cover").value = article.cover_image_url || "";
   document.getElementById("article_excerpt").value = article.excerpt || "";
   document.getElementById("article_body").value = article.body;
-  document.getElementById("article_published").value = String(article.published);
+  document.getElementById("article_published").value = isAdmin ? String(article.published) : "false";
 
   document.getElementById("add-article-modal").classList.add("active");
 }
@@ -108,13 +115,22 @@ async function openEditModal(articleId) {
 
   const { data: profile } = await sb
     .from("profiles")
-    .select("full_name")
+    .select("full_name, role")
     .eq("id", currentUserId)
     .single();
+
+  isAdmin = profile?.role === "admin";
 
   const displayName = profile?.full_name || session.user.email;
   document.getElementById("user-name").textContent = displayName;
   document.getElementById("user-avatar").textContent = displayName.charAt(0).toUpperCase();
+
+  // Non-admins can only save drafts; an admin reviews and publishes them.
+  if (!isAdmin) {
+    const statusSelect = document.getElementById("article_published");
+    statusSelect.innerHTML = '<option value="false">Draft (an admin will review and publish it)</option>';
+    statusSelect.value = "false";
+  }
 
   await initNotificationBell(currentUserId);
   await loadMyArticles();
@@ -144,7 +160,7 @@ async function openEditModal(articleId) {
     const cover_image_url = document.getElementById("article_cover").value.trim() || null;
     const excerpt = document.getElementById("article_excerpt").value.trim() || null;
     const body = document.getElementById("article_body").value.trim();
-    const published = document.getElementById("article_published").value === "true";
+    const published = isAdmin && document.getElementById("article_published").value === "true";
 
     if (id) {
       // ---- Update existing ----

@@ -197,7 +197,10 @@ async function loadListings() {
   await loadListings();
 
   // ---- Search box ----
-  document.getElementById("marketplace-search").addEventListener("input", () => loadListings());
+  const searchInput = document.getElementById("marketplace-search");
+  if (searchInput) {
+    searchInput.addEventListener("input", () => loadListings());
+  }
 
   // ---- Deep-link support: market.html?tab=marketplace&search=tarpaulin&prefill=1
   // (used by the Weather page's equipment suggestions to jump straight into a
@@ -209,8 +212,8 @@ async function loadListings() {
   if (deepTab === "marketplace") {
     switchMarketTab("marketplace");
   }
-  if (deepSearch) {
-    document.getElementById("marketplace-search").value = deepSearch;
+  if (deepSearch && searchInput) {
+    searchInput.value = deepSearch;
     await loadListings();
     if (params.get("prefill") === "1") {
       openAddListingModal(deepSearch);
