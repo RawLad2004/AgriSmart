@@ -82,7 +82,8 @@ test("raw database fields are not interpolated into HTML without escapeHtml", ()
     ["js/market.js", "${escapeHtml(l.description)}"],
     ["js/notifications.js", "${escapeHtml(n.title)}"],
     ["js/articles-public.js", "${escapeHtml(a.title)}"],
-    ["article.html", "${escapeHtml(article.body)}"]
+    ["article.html", "${escapeHtml(article.body)}"],
+    ["js/admin.js", "${escapeHtml(a.title)}"]
   ];
   for (const [file, needle] of checks) {
     const src = fs.readFileSync(path.join(root, file), "utf8");
